@@ -9,6 +9,14 @@ let user = new Schema({
         type: String,
         required: true
     },
+    FirstName: {
+        type: String,
+        required: true
+    },
+    LastName: {
+        type: String,
+        required: true
+    },
 });
 
 module.exports = model("user", user);

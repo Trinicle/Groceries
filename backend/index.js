@@ -24,6 +24,8 @@ app.get("/", (req, resp) => {
 app.post("/register", async (req, resp) => {
     const username = req.body.username;
     const password = req.body.password;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname
 
     await userSchema.findOne({
         Username: username
@@ -32,7 +34,9 @@ app.post("/register", async (req, resp) => {
             const hashed = await bcrypt.hash(password, salt)
             data = new userSchema({
                 Username: username,
-                HashedPassword: hashed
+                HashedPassword: hashed,
+                FirstName: firstname,
+                LastName: lastname
             });
             data.save();
             resp.send({
@@ -41,6 +45,7 @@ app.post("/register", async (req, resp) => {
         } else {
             resp.send(`${username} already has a password!`)
         }
+        return
     })
     
 });
@@ -63,6 +68,7 @@ app.post("/login", async (req, resp) => {
                 "matched": isMatch
             })
         }
+        return
     })
     
 });
