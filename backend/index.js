@@ -30,8 +30,14 @@ app.post("/register", async (req, resp) => {
     }).then( async (data) => {
         if(!data) {
             const hashed = await bcrypt.hash(password, salt)
-            console.log(hashed)
-
+            data = new userSchema({
+                Username: username,
+                HashedPassword: hashed
+            });
+            data.save();
+            resp.send({
+                "message": `${username} already has a password!`
+            })
         } else {
             resp.send(`${username} already has a password!`)
         }
@@ -47,12 +53,15 @@ app.post("/login", async (req, resp) => {
         Username: username
     }).then( async (data) => {
         if(!data) {
-            const hashed = await bcrypt.hash(password, salt)
-            console.log(hashed)
-
+            resp.send({
+                "message": `${username} does not have a login!`,
+                "matched": false
+            })
         } else {
-            const hash = await bcrypt.hash(data.password, salt)
-            const isMatch = await bcrypt.compare(password, hash)
+            const isMatch = await bcrypt.compare(password, data.HashedPassword)
+            resp.send({
+                "matched": isMatch
+            })
         }
     })
     

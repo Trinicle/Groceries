@@ -19,11 +19,11 @@ const onButtonClick = async (e) => {
         }
     )
     result = await result.json();
-    console.warn(result);
+    console.log(result);
     if (result) {
-        alert("Data saved succesfully");
         setUsername("");
         setPassword("");
+        navigate("/login")
     }
 }
 
@@ -35,6 +35,7 @@ return (
     <br />
     <div className={'inputContainer'}>
         <input
+        value={username}
         placeholder="Enter your username here"
         onChange={(ev) => setUsername(ev.target.value)}
         className={'inputBox'}

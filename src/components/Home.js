@@ -1,12 +1,16 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home(props) {
-    const { loggedIn, email } = props
+    const { loggedIn, setLoggedIn } = props
     const navigate = useNavigate()
+    console.log(loggedIn)
+    useEffect(() => {
+        if(!loggedIn) navigate('login')
+    }, [])
 
     const onButtonClick = () => {
     // You'll update this function later
-    console.log("hi")
 
     }
 
@@ -23,7 +27,6 @@ export default function Home(props) {
             onClick={onButtonClick}
             value={loggedIn ? 'Log out' : 'Log in'}
             />
-            {loggedIn ? <div>Your email address is {email}</div> : <div />}
         </div>
         </div>
     )

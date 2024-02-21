@@ -3,17 +3,35 @@ import { useState } from "react";
 
 
 export default function Login(props) {
-    const [email, setEmail] = useState('')
+    const { setLoggedIn } = props
+
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [emailError, setEmailError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
-
     const navigate = useNavigate()
-
-    const onButtonClick = () => {
-        // You'll update this function later...
+    
+    const onButtonClick = async (e) => {
+        e.preventDefault();
+    
+        let result = await fetch(
+            'http://localhost:5000/login', {
+                method: "post",
+                body: JSON.stringify({ username, password }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+        result = await result.json();
+        if (result.matched) {
+            setUsername("");
+            setPassword("");
+            setLoggedIn(true);
+            navigate("/");
+        } else {
+            setPassword("");
+        }
     }
-
+    
     return (
         <div className={'mainContainer'}>
         <div className={'titleContainer'}>
@@ -22,12 +40,11 @@ export default function Login(props) {
         <br />
         <div className={'inputContainer'}>
             <input
-            value={email}
-            placeholder="Enter your email here"
-            onChange={(ev) => setEmail(ev.target.value)}
+            value={username}
+            placeholder="Enter your username here"
+            onChange={(ev) => setUsername(ev.target.value)}
             className={'inputBox'}
             />
-            <label className="errorLabel">{emailError}</label>
         </div>
         <br />
         <div className={'inputContainer'}>
@@ -37,7 +54,6 @@ export default function Login(props) {
             onChange={(ev) => setPassword(ev.target.value)}
             className={'inputBox'}
             />
-            <label className="errorLabel">{passwordError}</label>
         </div>
         <br />
         <div className={'inputContainer'}>
