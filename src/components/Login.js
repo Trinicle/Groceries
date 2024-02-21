@@ -33,32 +33,41 @@ export default function Login(props) {
     }
     
     return (
-        <div className={'mainContainer'}>
-        <div className={'titleContainer'}>
-            <div>Login</div>
-        </div>
-        <br />
-        <div className={'inputContainer'}>
-            <input
-            value={username}
-            placeholder="Enter your username here"
-            onChange={(ev) => setUsername(ev.target.value)}
-            className={'inputBox'}
-            />
-        </div>
-        <br />
-        <div className={'inputContainer'}>
-            <input
-            value={password}
-            placeholder="Enter your password here"
-            onChange={(ev) => setPassword(ev.target.value)}
-            className={'inputBox'}
-            />
-        </div>
-        <br />
-        <div className={'inputContainer'}>
-            <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
-        </div>
+        <div className='flex justify-center items-center h-screen bg-green-600'>
+            <div className='grid w-5/6 shadow-lg bg-white rounded-md grid-cols-2'>
+                <div className="p-10">
+                    <h1 className="text-3xl mb-3">Login</h1>
+                    <hr/>
+                    <div className="pb-1">
+                        <label for="username" className="block text-2xl mb-2 mt-2" >Username</label>
+                        <input
+                        value={username}
+                        placeholder="Enter your username here"
+                        onChange={(ev) => setUsername(ev.target.value)}
+                        className='border w-full text-lg rounded-md p-1 px-2'
+                        />
+                    </div>
+                    <div>
+                        <label for="username" className="block text-2xl mb-2 mt-2" >Password</label>
+                        <input
+                        value={password}
+                        placeholder="Enter your password here"
+                        onChange={(ev) => setPassword(ev.target.value)}
+                        className='border w-full text-lg rounded-md p-1 px-2'
+                        />
+                    </div>
+                    <br />
+                    <div className="pb-2">
+                        <h1>Don't have an account? <a href="/register" className="font-medium">Join Now</a></h1>
+                    </div>
+                    <div>
+                        <input className='rounded-md border-green-400 bg-green-700 text-white w-full text-2xl p-2' type="button" onClick={onButtonClick} value={'Login'} />
+                    </div>
+                </div>
+                <div>
+                    <img src="https://www.usatoday.com/gcdn/authoring/authoring-images/2023/11/02/USAT/71425670007-getty-images-1310147575.jpg" className="h-full rounded-r-md"></img>
+                </div>
+            </div>
         </div>
     )
 }
