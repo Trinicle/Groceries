@@ -54,7 +54,7 @@ return (
                         <div className="absolute float-start px-3">
                             <FontAwesomeIcon icon={faLock} style={{color: "white"}}/>
                         </div>
-                        <input type="password" value={password} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)} 
+                        <input value={password} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)} 
                         className='border w-full text-lg rounded-full py-1 px-8 bg-white-light border-transparent focus:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:drop-shadow-xl text-dull-white placeholder:text-dull-white'
                         />
                     </div>
