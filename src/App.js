@@ -7,7 +7,13 @@ import Register from './components/Register.js'
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(() => {
+    return JSON.parse(localStorage.getItem('loggedIn') || false)
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem('loggedIn', JSON.stringify(loggedIn))
+  }, [loggedIn])
 
   return (
     <>

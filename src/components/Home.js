@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 export default function Home(props) {
     const { loggedIn, setLoggedIn } = props
     const navigate = useNavigate()
-    console.log(loggedIn)
     useEffect(() => {
-        if(!loggedIn) navigate('login')
-    }, [])
-
+        const data = window.localStorage.getItem('loggedIn');
+    
+        setLoggedIn(JSON.parse(data))
+        if(!loggedIn) navigate('/login')
+      }, [])
     const onButtonClick = () => {
     // You'll update this function later
 
