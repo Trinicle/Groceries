@@ -30,38 +30,33 @@ const onButtonClick = async (e) => {
 }
 
 return (
-    <div className='flex justify-center items-center h-screen bg-gradient-to-br from-emerald-900 via-emerald-600 to-green-400'>
-    <div className='grid lg:w-600 w-3/4 h-3/5 shadow-2xl bg-gray-600/50 rounded-2xl border-inherit items-center p-10'>    
-        <div className="">
-            <form action="" className="grid gap-10">
-                <div className="mb-3 font-bold text-white text-5xl">PLUH</div>
-                <div className="text-xl text-dull-white">
-                    Register
+    <div className='flex justify-center items-center h-screen bg-emerald-900'>
+    <div className='grid lg:w-600 w-3/4 h-3/5 shadow-2xl bg-white rounded-2xl border-inherit items-center p-10'>    
+        <div className="text-cyan-900">
+            <form action="" className="grid gap-8">
+                <div className="mb-3 text-5xl font-black">PLUH</div>
+                <div className="text-xl font-bold">
+                    USER REGISTRATION
                 </div>
-                <div>
-                    <label for="username" className="block text-md mb-2 mt-2 text-white" >Username</label>
-                    <div className="relative flex items-center">
-                        <div className="absolute float-start px-3">
-                            <FontAwesomeIcon icon={faUser} style={{color: "white"}}/>
-                        </div>
-                        <input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
-                        className='border w-full text-lg rounded-full py-1 px-8 bg-white-light border-transparent focus:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:drop-shadow-xl text-dull-white placeholder:text-dull-white'
-                        />
+                <div className="relative flex items-center">
+                    <div className="absolute float-start px-5">
+                        <FontAwesomeIcon icon={faUser} style={{color: "rgb(22 78 99 / 1)"}}/>
                     </div>
-                    <br/>
-                    <label for="password" className="block text-md mb-2 mt-2 text-white">Password</label>
-                    <div className="relative flex items-center">
-                        <div className="absolute float-start px-3">
-                            <FontAwesomeIcon icon={faLock} style={{color: "white"}}/>
-                        </div>
-                        <input value={password} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)} 
-                        className='border w-full text-lg rounded-full py-1 px-8 bg-white-light border-transparent focus:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:drop-shadow-xl text-dull-white placeholder:text-dull-white'
-                        />
+                    <input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
+                    className='border w-full text-lg rounded-full py-3 px-10 bg-white-light border-transparent bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-cyan-900 focus:shadow-black text-cyan-900 placeholder:text-cyan-900'
+                    />
+                </div>
+                <div className="relative flex items-center">
+                    <div className="absolute float-start px-5">
+                        <FontAwesomeIcon icon={faLock} style={{color: "rgb(22 78 99 / 1)"}}/>
                     </div>
+                    <input value={username} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)}
+                    className='border w-full text-lg rounded-full py-3 px-10 bg-white-light border-transparent bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-cyan-900 focus:shadow-black text-cyan-900 placeholder:text-cyan-900'
+                    />
                 </div>
                 <div className="flex">
                     <div className="w-full pr-2">
-                        <input className='rounded-full border-2 border-emerald-600 bg-gradient-to-l from-emerald-900 to-emerald-600 text-white w-full text-2xl p-2 shadow-xl' type="button" onClick={onButtonClick} value={'Sign Up'} />
+                        <input className='rounded-full border-2 border-cyan-900 bg-emerald-600 text-white w-full text-2xl p-2' type="button" onClick={onButtonClick} value={'Sign Up'} />
                     </div>
                 </div>
             </form>

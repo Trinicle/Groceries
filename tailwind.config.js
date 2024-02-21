@@ -16,7 +16,9 @@ module.exports = {
         'white-medium': '#FFFFFF40'
       },
       width: {
-        '600': "600px"
+        '600': "600px",
+        '1200': '1200px',
+        '1000': '1000px'
       }
     },
   },
