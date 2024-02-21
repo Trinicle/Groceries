@@ -11,8 +11,8 @@ export default function Home(props) {
         if(!loggedIn) navigate('/login')
       }, [])
     const onButtonClick = () => {
-    // You'll update this function later
-
+        setLoggedIn(false);
+        navigate('/login')
     }
 
     return (
