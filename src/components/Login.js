@@ -53,7 +53,7 @@ export default function Login(props) {
                                     <FontAwesomeIcon icon={faUser} style={{color: "rgb(22 78 99 / 1)"}}/>
                                 </div>
                                 <input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
-                                className='border w-full text-lg rounded-full py-3 px-10 bg-white-light border-transparent bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-cyan-900 focus:shadow-black text-cyan-900 placeholder:text-cyan-900'
+                                className='border w-full text-lg rounded-full py-3 px-10 bg-slate-300 border-transparent focus:outline-none focus:ring-2 focus:ring-cyan-900 focus:shadow-black text-cyan-900 placeholder:text-cyan-900'
                                 />
                             </div>
                             <div className="relative flex items-center">
@@ -61,7 +61,7 @@ export default function Login(props) {
                                     <FontAwesomeIcon icon={faLock} style={{color: "rgb(22 78 99 / 1)"}}/>
                                 </div>
                                 <input type="password" value={password} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)} 
-                                className='border w-full text-lg rounded-full py-3 px-10 bg-white-light border-transparent bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-cyan-900 focus:shadow-black text-cyan-900 placeholder:text-cyan-900'
+                                className='border w-full text-lg rounded-full py-3 px-10 bg-slate-300 border-transparent focus:outline-none focus:ring-2 focus:ring-cyan-900 focus:shadow-black text-cyan-900 placeholder:text-cyan-900'
                                 />
                             </div>
                         <div className="flex">
