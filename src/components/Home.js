@@ -36,6 +36,6 @@ export default function Home(props) {
     }
 
     return (
-        <Navbar/>
+        <Navbar picture={userData.Picture}/>
     )
 }

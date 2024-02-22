@@ -25,7 +25,8 @@ app.post("/register", async (req, resp) => {
     const username = req.body.username;
     const password = req.body.password;
     const firstname = req.body.firstname;
-    const lastname = req.body.lastname
+    const lastname = req.body.lastname;
+    const picture = req.body.picture;
 
     // let user = await userSchema.findOne({ Username: username })
     let user = await userSchema.findOne({ Username: username })
@@ -36,6 +37,7 @@ app.post("/register", async (req, resp) => {
             HashedPassword: hashed,
             FirstName: firstname,
             LastName: lastname,
+            Picture: picture
         })
         resp.send({
             "error": false
