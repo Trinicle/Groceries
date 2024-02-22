@@ -24,6 +24,10 @@ let user = new Schema({
     Grocery: {
         type: Array,
         default: []
+    },
+    Picture: {
+        type: String,
+        default: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
     }
 });
 

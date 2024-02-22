@@ -32,7 +32,7 @@ export default function Login(props) {
             setLoggedIn(true);
             setUser(username);
             setError(false)
-            navigate("/");
+            navigate("/home");
         } else {
             setError(true);
             setPassword("");

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "./Card.js"
+import Navbar from "./Navbar.js";
 
 export default function Home(props) {
     const { loggedIn, setLoggedIn, user, setUser } = props
@@ -35,6 +36,6 @@ export default function Home(props) {
     }
 
     return (
-        <div>hello</div>
+        <Navbar/>
     )
 }

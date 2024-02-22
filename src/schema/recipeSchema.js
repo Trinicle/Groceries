@@ -13,6 +13,10 @@ let recipe = new Schema({
         type: String,
         default: ""
     },
+    Ingredients: {
+        type: Array,
+        default: []
+    }
 });
 
 module.exports = model("recipe", recipe);
