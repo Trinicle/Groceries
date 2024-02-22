@@ -17,6 +17,14 @@ let user = new Schema({
         type: String,
         required: true
     },
+    Recipe: {
+        type: Array,
+        default: []
+    },
+    Grocery: {
+        type: Array,
+        default: []
+    }
 });
 
 module.exports = model("user", user);

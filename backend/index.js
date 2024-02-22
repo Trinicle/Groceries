@@ -27,27 +27,24 @@ app.post("/register", async (req, resp) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname
 
-    await userSchema.findOne({
-        Username: username
-    }).then( async (data) => {
-        if(!data) {
-            const hashed = await bcrypt.hash(password, salt)
-            data = new userSchema({
-                Username: username,
-                HashedPassword: hashed,
-                FirstName: firstname,
-                LastName: lastname
-            });
-            data.save();
-            resp.send({
-                "message": `${username} already has a password!`
-            })
-        } else {
-            resp.send(`${username} already has a password!`)
-        }
-        return
-    })
-    
+    // let user = await userSchema.findOne({ Username: username })
+    let user = await userSchema.findOne({ Username: username })
+    if(!user) {
+        const hashed = await bcrypt.hash(password, salt)
+        user = await userSchema.create({
+            Username: username,
+            HashedPassword: hashed,
+            FirstName: firstname,
+            LastName: lastname,
+        })
+        resp.send({
+            "error": false
+        })
+    } else {
+        resp.send({
+            "error": true
+        })
+    }
 });
 
 app.post("/login", async (req, resp) => {
@@ -72,4 +69,13 @@ app.post("/login", async (req, resp) => {
     })
     
 });
+
+app.post("/", async (req, resp) => {
+    const user  = req.body.user;
+
+    const userData = await userSchema.findOne({
+        Username: user
+    })
+    resp.send({ userData })
+})
 app.listen(5000);

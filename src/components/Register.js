@@ -23,11 +23,12 @@ const onButtonClick = async (e) => {
         }
     )
     result = await result.json();
-    console.log(result);
-    if (result) {
+    if (!result.error) {
         setUsername("");
         setPassword("");
         navigate("/login")
+    } else {
+        setError(true)
     }
 }
 
@@ -39,6 +40,7 @@ return (
                 <div className="text-xl font-bold pb-3 ">
                     USER REGISTRATION
                 </div>
+                {error && <p className="text-sm text-red-500 font-semibold pb-3">Username already exists!</p>}
             </div>
             <form action="" className="grid gap-5 grid-rows-3 grid-cols-2 items-center text-black">
                 <div>

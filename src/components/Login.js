@@ -5,7 +5,7 @@ import { faUser, faLock, faCircleExclamation } from "@fortawesome/free-solid-svg
 
 
 export default function Login(props) {
-    const { setLoggedIn } = props
+    const { setLoggedIn, setUser } = props
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -30,6 +30,7 @@ export default function Login(props) {
             setUsername("");
             setPassword("");
             setLoggedIn(true);
+            setUser(username);
             setError(false)
             navigate("/");
         } else {
@@ -83,8 +84,8 @@ export default function Login(props) {
                                 />
                             </div>
                             <div className="flex items-center mb-4 pt-3 pl-5">
-                                <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" onClick={showPassword}/>
-                                <label for="default-checkbox" class="ms-2 text-sm text-black font-bold dark:text-gray-300">Show Password</label>
+                                <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" onClick={showPassword}/>
+                                <label htmlFor="default-checkbox" className="ms-2 text-sm text-black font-bold dark:text-gray-300">Show Password</label>
                             </div>
                         </div>
                         <div className="flex">

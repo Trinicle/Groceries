@@ -11,16 +11,26 @@ function App() {
     return JSON.parse(localStorage.getItem('loggedIn') || false)
   });
 
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem('user')) || ""
+  })
+
   useEffect(() => {
     window.localStorage.setItem('loggedIn', JSON.stringify(loggedIn))
+    return () => {}
   }, [loggedIn])
+
+  useEffect(() => {
+    window.localStorage.setItem('user', JSON.stringify(user))
+    return () => {}
+  }, [user])
 
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
-          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
+          <Route path="/" element={<Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />} />
+          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser}/>} />
           <Route path="/register" element={<Register />}/>
         </Routes>
       </Router>
