@@ -1,17 +1,26 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBell, faBars } from "@fortawesome/free-solid-svg-icons"
 import classNames from 'classnames';
 
 
 export default function Navbar(props) {
-    const { picture } = props
+    const { picture, user, setLoggedIn, setUser } = props
     const navigation = [
         { name: 'Recipes', href: 'home/recipes', current: true },
         { name: 'Your Recipes', href: 'home/my-recipes', current: false },
         { name: 'About', href: '/about', current: false },
       ]
+    const navigate = useNavigate()
+
+    const signOut = (e) => {
+      e.preventDefault()
+      setLoggedIn(false)
+      setUser("")
+      navigate('/login')
+    }
 
     return (
         <Disclosure as="nav" className="bg-emerald-900">
@@ -29,7 +38,7 @@ export default function Navbar(props) {
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
+                    {user && navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
@@ -51,7 +60,7 @@ export default function Navbar(props) {
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <FontAwesomeIcon icon={faBell} className="h-6 w-6" />
+                  {user && <FontAwesomeIcon icon={faBell} className="h-6 w-6" />}
                 </button>
 
                 {/* Profile dropdown */}
@@ -76,7 +85,7 @@ export default function Navbar(props) {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
+                      {user && <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
@@ -85,8 +94,8 @@ export default function Navbar(props) {
                             Your Profile
                           </a>
                         )}
-                      </Menu.Item>
-                      <Menu.Item>
+                      </Menu.Item>}
+                      {user && <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
@@ -95,12 +104,13 @@ export default function Navbar(props) {
                             Settings
                           </a>
                         )}
-                      </Menu.Item>
+                      </Menu.Item>}
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            onClick={signOut}
                           >
                             Sign out
                           </a>

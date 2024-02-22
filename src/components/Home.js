@@ -8,27 +8,33 @@ export default function Home(props) {
     const [userData, setUserData] = useState()
     const [recipeData, setRecipeData] = useState([])
     const [groceryData, setGroceryData] = useState([])
+    const guestPicture = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'
 
     const navigate = useNavigate()
     useEffect(() => {
         const data = window.localStorage.getItem('loggedIn');
         setLoggedIn(JSON.parse(data))
         if(!loggedIn) navigate('/login')
-        const fetchData = async (user) => {
-            let result = await fetch(
-                'http://localhost:5000/', {
-                    method: "post",
-                    body: JSON.stringify({ user }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-            result = await result.json()
-            setUserData(result.userData)
-            setRecipeData(result.userData.Recipe)
-            setGroceryData(result.userData.Grocery)
+
+        if(user === "") {
+            
+        } else {
+            const fetchData = async (user) => {
+                let result = await fetch(
+                    'http://localhost:5000/', {
+                        method: "post",
+                        body: JSON.stringify({ user }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                result = await result.json()
+                setUserData(result.userData)
+                setRecipeData(result.userData.Recipe)
+                setGroceryData(result.userData.Grocery)
+            }
+            fetchData(user)
         }
-        fetchData(user)
     }, [])
     const onButtonClick = () => {
         setLoggedIn(false);
@@ -36,6 +42,6 @@ export default function Home(props) {
     }
 
     return (
-        <Navbar picture={userData.Picture}/>
+        <Navbar picture={user ? userData.Picture : guestPicture} guest={user === ""} setLoggedIn={setLoggedIn} setUser={setUser}/>
     )
 }

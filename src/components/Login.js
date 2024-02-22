@@ -13,16 +13,17 @@ export default function Login(props) {
     const [password, setPassword] = useState('')
     const [showPass, setShowPass] = useState("password")
     const [show, setShow] = useState('show')
+    const [guest, setGuest] = useState(true)
     const [error, setError] = useState(false)
     const navigate = useNavigate()
     
     const login = async (e) => {
         e.preventDefault();
-    
+        setGuest(false)
         let result = await fetch(
             'http://localhost:5000/login', {
                 method: "post",
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ username, password, guest }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -42,9 +43,15 @@ export default function Login(props) {
         }
     }
 
-    const signup = (e) => {
+    const guestLogin = async (e) => {
         e.preventDefault();
-        navigate("/register")
+        setGuest(true)
+        setUsername("");
+        setPassword("");
+        setLoggedIn(true);
+        setUser("");
+        setError(false)
+        navigate("/home");
     }
 
     const showPassword = () => {
@@ -101,7 +108,7 @@ export default function Login(props) {
                                     <span class="px-3 text-gray-500">or</span>
                                     <div class="flex-1 border-t-2 border-gray-200"></div>
                                 </div>
-                                <input className='rounded-full border-2 border-cyan-900 bg-forest text-white w-full text-xl p-4 font-semibold' type="button" value={'Continue as guest'} />
+                                <input className='rounded-full border-2 border-cyan-900 bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={guestLogin} value={'Continue as guest'} />
                             </form>
                         </div>
                     </div>
