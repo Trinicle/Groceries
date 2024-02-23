@@ -63,7 +63,7 @@ export default function Login(props) {
             <div className="flex h-full justify-center items-center">
                 <div className='grid gap-5'>
                     <div className='grid gap-10 w-96 shadow-2xl bg-white rounded-2xl border-inherit p-6'>    
-                        <div className="">
+                        <div>
                             <div className="pb-2">
                                 <h1 className="text-4xl font-semibold pb-2">Sign in</h1>
                                 <p>Stay updated on your shopping</p>
@@ -100,13 +100,13 @@ export default function Login(props) {
                                         />
                                     </div>
                                 </div>
-                                <input className='rounded-full border-2 border-cyan-900 bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={login} value={'Sign in'} />
+                                <input className='rounded-full border-2 border-black bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={login} value={'Sign in'} />
                                 <div class="flex items-center text-lg">
                                     <div class="flex-1 border-t-2 border-gray-200"></div>
                                     <span class="px-3 text-gray-500">or</span>
                                     <div class="flex-1 border-t-2 border-gray-200"></div>
                                 </div>
-                                <input className='rounded-full border-2 border-cyan-900 bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={guestLogin} value={'Continue as guest'} />
+                                <input className='rounded-full border-2 border-black bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={guestLogin} value={'Continue as guest'} />
                             </form>
                         </div>
                     </div>
