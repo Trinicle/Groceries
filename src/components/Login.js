@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock, faCircleExclamation } from "@fortawesome/free-solid-svg-icons"
 import classNames from 'classnames';
 
-
-
 export default function Login(props) {
     const { setLoggedIn, setUser } = props
 

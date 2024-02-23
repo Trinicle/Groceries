@@ -11,15 +11,6 @@ const cors = require("cors");
 console.log("App listen at port 3000");
 app.use(express.json());
 app.use(cors());
-app.get("/", (req, resp) => {
- 
-    resp.send("App is Working");
-    // You can check backend is working or not by 
-    // entering http://loacalhost:5000
-     
-    // If you see App is working means
-    // backend working properly
-});
 
 app.post("/register", async (req, resp) => {
     const username = req.body.username;
@@ -27,18 +18,36 @@ app.post("/register", async (req, resp) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const picture = req.body.picture;
-
+    const error = req.body.error;
+    
     // let user = await userSchema.findOne({ Username: username })
     let user = await userSchema.findOne({ Username: username })
-    if(!user) {
-        const hashed = await bcrypt.hash(password, salt)
-        user = await userSchema.create({
-            Username: username,
-            HashedPassword: hashed,
-            FirstName: firstname,
-            LastName: lastname,
-            Picture: picture
+    if(error) {
+        resp.send({
+            "error": true
         })
+        return
+    }
+    if(!user) {
+        var newUser = {}
+        const hashed = await bcrypt.hash(password, salt)
+        if(picture) {
+            newUser = {
+                Username: username,
+                HashedPassword: hashed,
+                FirstName: firstname,
+                LastName: lastname,
+                Picture: picture
+            }
+        } else {
+            newUser = {
+                Username: username,
+                HashedPassword: hashed,
+                FirstName: firstname,
+                LastName: lastname,
+            }
+        }
+        user = await userSchema.create(newUser)
         resp.send({
             "error": false
         })
