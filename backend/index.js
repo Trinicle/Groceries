@@ -18,9 +18,9 @@ app.post("/register", async (req, resp) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const picture = req.body.picture;
+    const title = req.body.title.name;
     const error = req.body.error;
-    
-    // let user = await userSchema.findOne({ Username: username })
+
     let user = await userSchema.findOne({ Username: username })
     if(error) {
         resp.send({
@@ -37,6 +37,7 @@ app.post("/register", async (req, resp) => {
                 HashedPassword: hashed,
                 FirstName: firstname,
                 LastName: lastname,
+                Tile: title,
                 Picture: picture
             }
         } else {
@@ -44,6 +45,7 @@ app.post("/register", async (req, resp) => {
                 Username: username,
                 HashedPassword: hashed,
                 FirstName: firstname,
+                Title: title,
                 LastName: lastname,
             }
         }

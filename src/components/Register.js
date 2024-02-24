@@ -1,8 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Fragment, useState } from "react";
+import { Listbox, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock, faCircleExclamation, faCamera } from "@fortawesome/free-solid-svg-icons"
+import { faUser, faLock, faCircleExclamation, faCamera, faUtensils, faCheck, faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import classNames from 'classnames';
+
+const people = [
+    { name: 'N/A' },
+    { name: 'Home Cook' },
+    { name: 'Commis Chef' },
+    { name: 'Junior Chef' },
+    { name: 'Station Chef' },
+    { name: 'Saucier' },
+    { name: 'Grill Chef' },
+    { name: 'Chef de Tournant' },
+    { name: 'Fish Chef' },
+    { name: 'Entremetier' },
+    { name: 'Friturier' },
+    { name: 'Pastry Chef' },
+    { name: 'Boucher' },
+    { name: 'Fry Chef' },
+    { name: 'Head Chef' },
+  ]
 
 export default function Register() {
 const [username, setUsername] = useState('')
@@ -10,6 +29,7 @@ const [password, setPassword] = useState('')
 const [lastname, setLastName] = useState('')
 const [firstname, setFirstName] = useState('')
 const [picture, setPicture] = useState('')
+const [title, setTitle] = useState(people[0])
 const [usernameError, setUsernameError] = useState(false)
 const [nameError, setNameError] = useState(false)
 const [passwordError, setPasswordError] = useState(false)
@@ -57,7 +77,7 @@ const onButtonClick = async (e) => {
     let result = await fetch(
         'http://localhost:5000/register', {
             method: "post",
-            body: JSON.stringify({ username, password, firstname, lastname, picture, error }),
+            body: JSON.stringify({ username, password, firstname, lastname, picture, title, error }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -117,6 +137,55 @@ return (
                                 )}
                                 />
                             </div>
+                        </div>
+                        <div className="col-span-2">
+                            <Listbox value={title} onChange={setTitle}>
+                                <div className="relative mt-1">
+                                    <Listbox.Button className="border-black focus:ring-forest border w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2">
+                                        <span>{title.name}</span>
+                                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                                        <FontAwesomeIcon icon={faCaretDown} style={{color: "black"}}/>
+                                        </span>
+                                    </Listbox.Button>
+                                    <Transition
+                                        as={Fragment}
+                                        leave="transition ease-in duration-100"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-10">
+                                        {people.map((person, personIdx) => (
+                                            <Listbox.Option
+                                            key={personIdx}
+                                            className={({ active }) =>
+                                                `relative cursor-default select-none py-2 pl-10 pr-4 text-lg ${
+                                                active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                                                }`
+                                            }
+                                            value={person}
+                                            >
+                                            {({ selected }) => (
+                                                <>
+                                                <span
+                                                    className={`block truncate ${
+                                                    selected ? 'font-medium' : 'font-normal'
+                                                    }`}
+                                                >
+                                                    {person.name}
+                                                </span>
+                                                {selected ? (
+                                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                                    <FontAwesomeIcon icon={faCheck} style={{color: "black"}}/>
+                                                    </span>
+                                                ) : null}
+                                                </>
+                                            )}
+                                            </Listbox.Option>
+                                        ))}
+                                        </Listbox.Options>
+                                    </Transition>
+                                </div>
+                            </Listbox>
                         </div>
                         <div className="col-span-2">
                             <div className="flex relative">

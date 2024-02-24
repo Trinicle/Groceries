@@ -17,6 +17,9 @@ let user = new Schema({
         type: String,
         required: true
     },
+    Title: {
+        type: String,
+    },
     Recipe: {
         type: Array,
         default: []

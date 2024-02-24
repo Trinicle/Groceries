@@ -76,22 +76,41 @@ export default function Navbar(props) {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="flex flex-col items-start absolute right-0 top-12 z-10 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 ">
                           {user && <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="#"
-                                className={(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                              >
-                                Your Profile
-                              </a>
+                                <a
+                                  href="#"
+                                  className={classNames(active ? '' : '', 'px-2 py-2 text-sm text-gray-500 w-full')}
+                                >
+                                  <div className='flex'>
+                                    <div className='pr-2'>
+                                      <img
+                                        className="h-12 w-12 rounded-full"
+                                        src={user ? user.Picture : defaultPicture }
+                                      />
+                                    </div>
+                                    <div className='self-end flex flex-col items-start'>
+                                      <div className='font-bold text-black text-base'>
+                                        {user.FirstName} {user.LastName}
+                                      </div>
+                                      <div className='text-black'>
+                                        {user.Title}
+                                      </div>
+                                    </div>
+                                  </div>               
+                                  <button className='flex justify-center w-full mt-4 mb-2 rounded-full text-forest px-2 ring-1 ring-forest hover:ring-2 font-bold'>
+                                    Profile
+                                  </button>
+                                  <hr/>
+                                </a>
                             )}
                           </Menu.Item>}
                           {user && <Menu.Item>
                             {({ active }) => (
                               <a
                                 href="#"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(active ? 'underline underline-offset-2' : '', 'py-2 text-sm text-gray-500 px-2')}
                               >
                                 Settings
                               </a>
@@ -101,7 +120,7 @@ export default function Navbar(props) {
                             {({ active }) => (
                               <a
                                 href="#"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(active ? 'underline underline-offset-2' : '', 'block py-2 text-sm text-gray-500 px-2')}
                                 onClick={signOut}
                               >
                                 Sign out

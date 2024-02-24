@@ -9,7 +9,8 @@ module.exports = {
         josefin: ["Josefin", "sans-serif"] 
       },
       textColor: {
-        'dull-white': '#FFFFFFB3'
+        'dull-white': '#FFFFFFB3',
+        'forest': '#014421'
       },
       backgroundColor: {
         'white-light': '#FFFFFF30',
