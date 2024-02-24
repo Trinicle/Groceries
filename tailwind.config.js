@@ -14,7 +14,8 @@ module.exports = {
       backgroundColor: {
         'white-light': '#FFFFFF30',
         'white-medium': '#FFFFFF40',
-        'forest': "#014421"
+        'forest': "#014421",
+        'warm-gray': '#f4f2ee'
       },
       width: {
         '600': "600px",
@@ -24,6 +25,7 @@ module.exports = {
       ringColor: {
         'forest': "#014421"
       }
+
     },
   },
   plugins: [],

@@ -81,7 +81,7 @@ app.post("/login", async (req, resp) => {
     
 });
 
-app.post("/", async (req, resp) => {
+app.post("/home", async (req, resp) => {
     const user  = req.body.user;
 
     const userData = await userSchema.findOne({

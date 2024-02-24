@@ -83,7 +83,7 @@ const onButtonClick = async (e) => {
 return (
     <div className='h-screen bg-slate-50'>
         <div className="text-5xl font-black text-black mx-12 pt-8">PLUH</div>
-        <div className='flex h-full justify-center items-center'>
+        <div className='fixed inset-0 flex items-center justify-center'>
             <div className='grid w-600 shadow-2xl bg-white rounded-2xl border-inherit p-10'>    
                 <div>
                     <div className="pb-4">

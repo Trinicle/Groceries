@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "./Card.js"
+import AddRecipe from "./AddRecipe.js"
 import Navbar from "./Navbar.js";
 
 export default function Home(props) {
@@ -17,11 +18,12 @@ export default function Home(props) {
         if(!loggedIn) navigate('/login')
 
         if(user === "") {
-            
+
         } else {
+            console.log(user)
             const fetchData = async (user) => {
                 let result = await fetch(
-                    'http://localhost:5000/', {
+                    'http://localhost:5000/home', {
                         method: "post",
                         body: JSON.stringify({ user }),
                         headers: {
@@ -40,8 +42,17 @@ export default function Home(props) {
         setLoggedIn(false);
         navigate('/login')
     }
+    console.log(userData)
 
     return (
-        <Navbar picture={user ? userData.Picture : guestPicture} guest={user === ""} setLoggedIn={setLoggedIn} setUser={setUser}/>
+        <div className="bg-warm-gray h-dvh">
+            <Navbar user={userData} guest={user === ""} setLoggedIn={setLoggedIn} setUser={setUser}/>
+            {recipeData.forEach(recipe => {
+                <Card recipe={recipe}/>
+            })}
+            <div className="pt-10">
+            <AddRecipe recipeData={recipeData} setRecipeData={setRecipeData}/>
+            </div>
+        </div>
     )
 }

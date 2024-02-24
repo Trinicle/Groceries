@@ -9,10 +9,6 @@ let grocery = new Schema({
         type: String,
         default: ""
     },
-    Category: {
-        type: String,
-        default: ""
-    },
 });
 
 module.exports = model("grocery", grocery);
