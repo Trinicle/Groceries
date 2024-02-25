@@ -25,6 +25,12 @@ module.exports = {
       },
       ringColor: {
         'forest': "#014421"
+      },
+      padding: {
+        "52px": "52px"
+      },
+      gridTemplateColumns: {
+        "3-6": "3fr 6fr"
       }
 
     },

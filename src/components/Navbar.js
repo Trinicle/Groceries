@@ -76,7 +76,7 @@ export default function Navbar(props) {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="flex flex-col items-start absolute right-0 top-12 z-10 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 ">
+                        <Menu.Items className="flex flex-col items-start absolute right-0 top-14 z-10 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 ">
                           {user && <Menu.Item>
                             {({ active }) => (
                                 <a
@@ -110,17 +110,18 @@ export default function Navbar(props) {
                             {({ active }) => (
                               <a
                                 href="#"
-                                className={classNames(active ? 'underline underline-offset-2' : '', 'py-2 text-sm text-gray-500 px-2')}
+                                className={classNames(active ? 'underline underline-offset-2' : '', 'py-2 text-sm text-gray-500 px-4')}
                               >
                                 Settings
                               </a>
+                              
                             )}
                           </Menu.Item>}
                           <Menu.Item>
                             {({ active }) => (
                               <a
                                 href="#"
-                                className={classNames(active ? 'underline underline-offset-2' : '', 'block py-2 text-sm text-gray-500 px-2')}
+                                className={classNames(active ? 'underline underline-offset-2' : '', 'block py-2 text-sm text-gray-500 px-4')}
                                 onClick={signOut}
                               >
                                 Sign out

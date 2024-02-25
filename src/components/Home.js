@@ -50,8 +50,18 @@ export default function Home(props) {
             {recipeData.forEach(recipe => {
                 <Card recipe={recipe}/>
             })}
-            <div className="pt-10">
-            <AddRecipe recipeData={recipeData} setRecipeData={setRecipeData}/>
+            <div className="pt-52px">
+                <div className="max-w-4xl mx-auto">
+                    <div className="mt-8 grid grid-cols-3-6 gap-6">
+                        <div>
+                            {/*      All recipes                        */}
+                            <AddRecipe recipeData={recipeData} setRecipeSData={setRecipeData}/>
+                        </div>
+                        <div>
+                            {/*   Groceries and add Groceries                           */}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
