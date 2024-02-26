@@ -13,14 +13,13 @@ export default function Home(props) {
 
     const navigate = useNavigate()
     useEffect(() => {
-        const data = window.localStorage.getItem('loggedIn');
-        setLoggedIn(JSON.parse(data))
+        const isLoggedIn = window.localStorage.getItem('loggedIn');
+        setLoggedIn(JSON.parse(isLoggedIn))
         if(!loggedIn) navigate('/login')
 
         if(user === "") {
 
         } else {
-            console.log(user)
             const fetchData = async (user) => {
                 let result = await fetch(
                     'http://localhost:5000/home', {
@@ -31,9 +30,11 @@ export default function Home(props) {
                         }
                     })
                 result = await result.json()
-                setUserData(result.userData)
-                setRecipeData(result.userData.Recipe)
-                setGroceryData(result.userData.Grocery)
+                const data = result.Response
+                setUserData(data)
+                setRecipeData(data.Recipes)
+                setGroceryData(data.Groceries)
+                console.log(data)
             }
             fetchData(user)
         }
@@ -42,8 +43,6 @@ export default function Home(props) {
         setLoggedIn(false);
         navigate('/login')
     }
-    console.log(userData)
-
     return (
         <div className="bg-warm-gray h-dvh">
             <Navbar user={userData} guest={user === ""} setLoggedIn={setLoggedIn} setUser={setUser}/>

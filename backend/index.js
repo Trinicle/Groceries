@@ -1,8 +1,18 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const { DynamoDBClient, ListTablesCommand, GetItemCommand, PutItemCommand, TransactWriteItemsCommand } = require("@aws-sdk/client-dynamodb");
 require('dotenv').config({ path: '../.env' });
-const userSchema = require('../src/schema/userSchema.js');
-mongoose.connect(process.env.DB_STRING);
+
+const client = new DynamoDBClient({
+  region: 'us-east-2',
+  credentials: {
+    accessKeyId: process.env.ACCESS_KEY, 
+    secretAccessKey: process.env.SECRET_ACCESS_KEY
+  }
+});
+
+
+//TODO: Convert to AWS
+
+const bcrypt = require('bcrypt');
 const salt = Number(process.env.SALT);
 
 const express = require('express');
@@ -21,42 +31,51 @@ app.post("/register", async (req, resp) => {
     const title = req.body.title.name;
     const error = req.body.error;
 
-    let user = await userSchema.findOne({ Username: username })
+    const params = {
+        TableName: 'groc_users',
+        Key: {
+            Username: { S: username }
+        }
+    }
     if(error) {
         resp.send({
             "error": true
         })
         return
     }
-    if(!user) {
-        var newUser = {}
-        const hashed = await bcrypt.hash(password, salt)
-        if(picture) {
-            newUser = {
-                Username: username,
-                HashedPassword: hashed,
-                FirstName: firstname,
-                LastName: lastname,
-                Tile: title,
-                Picture: picture
+    try {
+        const command = new GetItemCommand(params);
+        const data = await client.send(command);
+        const user = data.Item ? data.Item.Username.S : null
+        if(!user) {
+            const hashed = await bcrypt.hash(password, salt)
+            const params = {
+                TableName: 'groc_users',
+                Item: {
+                    "Username": { S: username },
+                    "HashedPassword": { S: hashed },
+                    "FirstName": { S: firstname },
+                    "LastName": { S: lastname },
+                    "Title": { S: title },
+                    "Picture": { S: picture ? picture : "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg" },
+                    "Groceries": { L: [] },
+                    "Favorites": { L: [] },
+                    "Recipes": { L: [] },
+                }
             }
+            const command = new PutItemCommand(params);
+            const data = await client.send(command);
+            resp.send({
+                "error": false
+            })
         } else {
-            newUser = {
-                Username: username,
-                HashedPassword: hashed,
-                FirstName: firstname,
-                Title: title,
-                LastName: lastname,
-            }
+            resp.send({
+                "error": true
+            })
         }
-        user = await userSchema.create(newUser)
-        resp.send({
-            "error": false
-        })
-    } else {
-        resp.send({
-            "error": true
-        })
+    } catch (err) {
+        console.log(err)
+        return
     }
 });
 
@@ -64,31 +83,67 @@ app.post("/login", async (req, resp) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    await userSchema.findOne({
-        Username: username
-    }).then( async (data) => {
-        if(!data) {
+    const params = {
+        TableName: 'groc_users',
+        Key: {
+            Username: { S: username }
+        }
+    }
+
+    try {
+        const command = new GetItemCommand(params);
+        const data = await client.send(command);
+        const user = data.Item ? data.Item : null
+        
+        if(user) {
+            const isMatch = await bcrypt.compare(password, user.HashedPassword.S)
+            resp.send({
+                "matched": isMatch
+            })
+        } else {
             resp.send({
                 "message": `${username} does not have a login!`,
                 "matched": false
             })
-        } else {
-            const isMatch = await bcrypt.compare(password, data.HashedPassword)
-            resp.send({
-                "matched": isMatch
-            })
+            return; 
         }
+    } catch (err) {
+        console.log(err)
+        resp.send({
+            "message": `Error occured`,
+            "matched": false
+        })
         return
-    })
-    
+    }
 });
 
 app.post("/home", async (req, resp) => {
-    const user  = req.body.user;
+    const username  = req.body.user;
 
-    const userData = await userSchema.findOne({
-        Username: user
-    })
-    resp.send({ userData })
+    const params = {
+        TableName: 'groc_users',
+        Key: {
+            Username: { S: username }
+        }
+    }
+
+    try {
+        const command = new GetItemCommand(params);
+        const data = await client.send(command);
+        const userData = data.Item ? data.Item : null;
+        const Response = {
+            Username: userData.Username.S,
+            FirstName: userData.FirstName.S,
+            LastName: userData.LastName.S,
+            Picture: userData.Picture.S,
+            Title: userData.Title.S,
+            Groceries: userData.Groceries.L,
+            Favorites: userData.Favorites.L,
+            Recipes: userData.Recipes.L,
+        }
+        resp.send({ Response })
+    } catch (err) {
+
+    }    
 })
 app.listen(5000);
