@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 export default function AddRecipe(props) {
     const {recipeData, setRecipeData } = props
-    const [isOpen, setIsOpen] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
     const [recipeDescription, setRecipeDescription] = useState("")
     const [recipeName, setRecipeName] = useState("")
     const [recipeInstructions, setRecipeInstructions] = useState("")

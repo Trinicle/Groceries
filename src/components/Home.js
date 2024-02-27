@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "./Card.js"
 import AddRecipe from "./AddRecipe.js"
 import Navbar from "./Navbar.js";
+import GroceryHomeList from "./GroceryHomeList.js"
 
 export default function Home(props) {
     const { loggedIn, setLoggedIn, user, setUser } = props
@@ -22,9 +23,8 @@ export default function Home(props) {
         } else {
             const fetchData = async (user) => {
                 let result = await fetch(
-                    'http://localhost:5000/home', {
-                        method: "post",
-                        body: JSON.stringify({ user }),
+                    `http://localhost:5000/home/${user}`, {
+                        method: "get",
                         headers: {
                             'Content-Type': 'application/json'
                         }
@@ -53,11 +53,12 @@ export default function Home(props) {
                 <div className="max-w-4xl mx-auto">
                     <div className="mt-8 grid grid-cols-3-6 gap-6">
                         <div>
-                            {/*      All recipes                        */}
-                            <AddRecipe recipeData={recipeData} setRecipeSData={setRecipeData}/>
+                            {/*   Groceries and add Groceries                           */}
+                            <GroceryHomeList groceryData={groceryData} username={userData ? userData.Username : null }/>
                         </div>
                         <div>
-                            {/*   Groceries and add Groceries                           */}
+                             {/*      All recipes                        */}
+                             <AddRecipe recipeData={recipeData} setRecipeSData={setRecipeData}/>
                         </div>
                     </div>
                 </div>

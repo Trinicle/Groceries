@@ -1,4 +1,4 @@
-const { DynamoDBClient, ListTablesCommand, GetItemCommand, PutItemCommand, TransactWriteItemsCommand } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, ListTablesCommand, GetItemCommand, PutItemCommand, TransactWriteItemsCommand, UpdateItemCommand } = require("@aws-sdk/client-dynamodb");
 require('dotenv').config({ path: '../.env' });
 
 const client = new DynamoDBClient({
@@ -117,8 +117,8 @@ app.post("/login", async (req, resp) => {
     }
 });
 
-app.post("/home", async (req, resp) => {
-    const username  = req.body.user;
+app.get("/home/:user", async (req, resp) => {
+    const username  = req.params.user;
 
     const params = {
         TableName: 'groc_users',
@@ -145,5 +145,37 @@ app.post("/home", async (req, resp) => {
     } catch (err) {
 
     }    
+})
+
+app.post("/home", async (req, resp) => {
+    const username = req.body.username;
+    const groceryName = req.body.groceryName;
+    const groceryQuantity = req.body.quantity;
+
+    const params = {
+        TableName: 'groc_users',
+        Key: {
+            Username: { S: username }
+        },
+        UpdateExpression: "SET Groceries = list_append(Groceries, :vals)",
+        ExpressionAttributeValues: {
+            ':vals': {
+                L: [{
+                    M: {
+                        GroceryName: { S: groceryName },
+                        GroceryQuantity: { S: groceryQuantity },
+                    }
+                }]
+            },
+        },
+        ReturnValues: 'UPDATED_NEW',
+    }
+
+    try {
+        const command = new UpdateItemCommand(params);
+        await client.send(command);
+    } catch (err) {
+        console.log(err)
+    }
 })
 app.listen(5000);
