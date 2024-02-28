@@ -82,7 +82,8 @@ export default function Login(props) {
 										</div>
 										<input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
 											className={classNames(
-												error ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
+												error ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+													'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
 											)}
 										/>
 									</div>

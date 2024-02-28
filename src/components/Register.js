@@ -120,7 +120,8 @@ export default function Register() {
                   </div>
                   <input value={firstname} placeholder="First Name" onChange={(ev) => setFirstName(ev.target.value)}
                     className={classNames(
-                      nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 'w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2'
+                      nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                        'w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2'
                     )}
                   />
                 </div>
@@ -133,7 +134,8 @@ export default function Register() {
                   </div>
                   <input value={lastname} placeholder="Last Name" onChange={(ev) => setLastName(ev.target.value)}
                     className={classNames(
-                      nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 'w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2'
+                      nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                        'w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2'
                     )}
                   />
                 </div>
@@ -153,7 +155,8 @@ export default function Register() {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-10">
+                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 
+                        text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-10">
                         {people.map((person, personIdx) => (
                           <Listbox.Option
                             key={personIdx}
@@ -199,7 +202,8 @@ export default function Register() {
                   </div>
                   <input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
                     className={classNames(
-                      usernameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
+                      usernameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                        'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
                     )}
                   />
                 </div>
@@ -218,7 +222,8 @@ export default function Register() {
                   </div>
                   <input value={password} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)}
                     className={classNames(
-                      passwordError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
+                      passwordError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                        'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
                     )}
                   />
                 </div>
@@ -234,7 +239,8 @@ export default function Register() {
                   </div>
                   <input value={picture} placeholder="Picture Link" onChange={(ev) => setPicture(ev.target.value)}
                     className={classNames(
-                      pictureError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
+                      pictureError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                        'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
                     )}
                   />
                 </div>

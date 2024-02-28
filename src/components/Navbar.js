@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 export default function Navbar(props) {
   const { user, setLoggedIn, setUser } = props
+
   const navigation = [
     { name: 'Search', href: 'home', current: false, icon: faMagnifyingGlass },
     { name: 'Home', href: 'home', current: true, icon: faHouseChimney },
@@ -16,9 +17,11 @@ export default function Navbar(props) {
     { name: 'About', href: '/about', current: false, icon: faUser },
     { name: 'Notifications', current: false, icon: faBell }
   ]
+
   const navigate = useNavigate()
 
   const defaultPicture = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+
   const signOut = (e) => {
     e.preventDefault()
     setLoggedIn(false)
@@ -76,7 +79,8 @@ export default function Navbar(props) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="flex flex-col items-start absolute right-0 top-14 z-10 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 ">
+                    <Menu.Items className="flex flex-col items-start absolute right-0 top-14 z-10 w-48 rounded-md bg-white 
+                      py-1 shadow-lg ring-1 ring-black ring-opacity-5 ">
                       {user && <Menu.Item>
                         {({ active }) => (
                           <a
@@ -99,7 +103,8 @@ export default function Navbar(props) {
                                 </div>
                               </div>
                             </div>
-                            <button className='flex justify-center w-full mt-4 mb-2 rounded-full text-forest px-2 ring-1 ring-forest hover:ring-2 font-bold'>
+                            <button className='flex justify-center w-full mt-4 mb-2 rounded-full text-forest px-2 ring-1 
+                              ring-forest hover:ring-2 font-bold'>
                               Profile
                             </button>
                             <hr />
@@ -142,7 +147,7 @@ export default function Navbar(props) {
                     href={item.href}
                     className={classNames(
                       item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'block rounded-md px-3 py-2 text-base font-medium'
+                        'block rounded-md px-3 py-2 text-base font-medium'
                     )}
                     aria-current={item.current ? 'page' : undefined}
                   >
