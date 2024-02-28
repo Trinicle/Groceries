@@ -52,11 +52,9 @@ export default function Home(props) {
 				<div className="max-w-4xl mx-auto">
 					<div className="mt-8 grid grid-cols-3-6 gap-6">
 						<div>
-							{/*   Groceries and add Groceries                           */}
 							<GroceryHomeList groceryData={groceryData} username={userData ? userData.Username : null} />
 						</div>
 						<div>
-							{/*      All recipes                        */}
 							<RecipeFeed recipeData={recipeData} setRecipeSData={setRecipeData} />
 						</div>
 					</div>
