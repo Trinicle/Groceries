@@ -10,12 +10,9 @@ export default function Navbar(props) {
   const { user, setLoggedIn, setUser } = props
 
   const navigation = [
-    { name: 'Search', href: 'home', current: false, icon: faMagnifyingGlass },
     { name: 'Home', href: 'home', current: true, icon: faHouseChimney },
     { name: 'Recipes', href: 'home/recipes', current: false, icon: faBook },
-    { name: 'Your Recipes', href: 'home/my-recipes', current: false, icon: faBookOpenReader },
-    { name: 'About', href: '/about', current: false, icon: faUser },
-    { name: 'Notifications', current: false, icon: faBell }
+    { name: 'Your Recipes', href: 'home/my-recipes', current: false, icon: faBookOpenReader }
   ]
 
   const navigate = useNavigate()
@@ -33,23 +30,19 @@ export default function Navbar(props) {
     <Disclosure as="nav" className="bg-white">
       {({ open }) => (
         <>
-          <div className="fixed w-dvw bg-white">
-            <div className="flex items-center justify-center px-8">
-              <div className="flex flex-shrink-0 items-center">
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                  alt="Your Company"
-                />
+          <div className="fixed w-dvw bg-white ">
+            <div className="flex items-center px-8 max-w-6xl mx-auto">
+              <div className="flex flex-shrink-0 font-bold text-3xl flex-start">
+                QWIK Recipes
               </div>
-              <div className="flex text-center">
+              <div className="flex text-center ml-auto pt-1">
                 {user && navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className={classNames(
                       item.current ? 'border-b-2 border-black' : 'text-gray-400 hover:text-black',
-                      'min-w-20 pt-2 pb-1 text-xs flex flex-col'
+                      'pt-2 pb-1 text-xs flex flex-col min-w-24'
                     )}
                   >
                     <div>

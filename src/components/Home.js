@@ -49,7 +49,7 @@ export default function Home(props) {
 		<div className="bg-warm-gray h-dvh">
 			<Navbar user={userData} guest={user === ""} setLoggedIn={setLoggedIn} setUser={setUser} />
 			<div className="pt-52px">
-				<div className="max-w-4xl mx-auto">
+				<div className="max-w-7xl mx-auto">
 					<div className="mt-8 grid grid-cols-3-6 gap-6">
 						<div>
 							<GroceryHomeList groceryData={groceryData} username={userData ? userData.Username : null} />
