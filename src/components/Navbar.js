@@ -34,7 +34,7 @@ export default function Navbar(props) {
             <div className="flex items-center px-8 max-w-6xl mx-auto">
               <div className="flex flex-shrink-0 font-bold text-3xl flex-start">
                 QWIK Recipes
-              </div>
+              </div> 
               <div className="flex text-center ml-auto pt-1">
                 {user && navigation.map((item) => (
                   <a
