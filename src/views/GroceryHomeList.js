@@ -28,9 +28,7 @@ export default function GroceryHomeList(props) {
             </li>
           ))}
         </ul>
-        <div className="p-3">
-          <AddGrocery username={username} />
-        </div>
+        <AddGrocery username={username} />
       </div>
     </div>
   )
