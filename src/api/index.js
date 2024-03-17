@@ -38,8 +38,12 @@ app.post("/register", async (req, resp) => {
 		TableName: 'groc_userLists',
 		Item: {
 			"Username": { S: username }, 
-			"Name": { S: "Basic List" },
-			"Groceries": { L: [] }
+			"List": { L: [{
+				M: {
+					Name: { S: "Basic List" },
+					Groceries: { L: [] }
+				}
+			}] }
 		}
 	}
 	if (error) {
@@ -52,7 +56,6 @@ app.post("/register", async (req, resp) => {
 		const command = new GetItemCommand(params);
 		const data = await client.send(command);
 
-		const listCommand = new GetItemCommand()
 		const user = data?.Item;
 		if (!user) {
 			const hashed = await bcrypt.hash(password, salt)
@@ -104,10 +107,10 @@ app.post("/login", async (req, resp) => {
 	try {
 		const command = new GetItemCommand(params);
 		const data = await client.send(command);
-		const user = data.Item ? data.Item : null
+		const user = data?.Item
 
 		if (user) {
-			const isMatch = await bcrypt.compare(password, user.HashedPassword.S)
+			const isMatch = bcrypt.compare(password, user.HashedPassword.S)
 			resp.send({
 				"matched": isMatch
 			})
@@ -143,33 +146,23 @@ app.get("/home/:user", async (req, resp) => {
 		const data = await client.send(command);
 
 		const userData = data?.Item;
-		const searchTerms = userData.Lists.L;
-
-		const keys = [];
-		searchTerms.forEach(term => {
-			keys.push({
-				Name: { S: term.S }
-			})
-		})
 
 		const listParams = {
 			TableName: 'groc_userLists',
-			Keys: keys
+			Key: {
+				Username: { S: username }
+			}
 		}
 
-		const listCommand = new BatchGetItemCommand({
-			RequestItems: {
-				"groc_userLists": listParams
-			}
-		});
+		const listCommand = new GetItemCommand(listParams);
 		const listData = await client.send(listCommand);
-		const userListData = listData?.Responses.groc_userLists;
+		const userListData = listData?.Item;
 
-		const groceries = [];
-		userListData.forEach(list => {
-			groceries.push({
-				Name: list.Name.S,
-				Groceries: list.Groceries.L,
+		const lists = []
+		userListData.List.L.forEach(item => {
+			lists.push({
+				Name: item.M.Name.S,
+				Groceries: item.M.Groceries.L,
 			})
 		})
 
@@ -179,7 +172,7 @@ app.get("/home/:user", async (req, resp) => {
 			LastName: userData.LastName.S,
 			Picture: userData.Picture.S,
 			Title: userData.Title.S,
-			Lists: groceries,
+			Lists: lists,
 			Favorites: userData.Favorites.L,
 			Recipes: userData.Recipes.L,
 		}

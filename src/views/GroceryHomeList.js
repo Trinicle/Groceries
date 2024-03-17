@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons"
 import classNames from 'classnames';
 
 export default function GroceryHomeList(props) {
   const { listData, setListData, username } = props;
   const [checked, setChecked] = useState(Array(listData.length).fill(false));
+  const [listClicked, setListClicked] = useState({})
   const [groceryName, setGroceryName] = useState("")
 
   const handleCheck = (index) => {
@@ -19,16 +22,18 @@ export default function GroceryHomeList(props) {
       <div className="bg-white rounded-lg ring-1 ring-gray-300">
         <h1 className="text-2xl p-3 text-center font-paytone">GROCERY LISTS</h1>
         <hr />
-        <ul className="py-3 px-7">
+        <ul className="pt-3 px-7">
           {listData.map((item) => (
-            <li className='font-bold'>{item.Name.toUpperCase()}</li>
-          ))}
-          {/* {listData.map((item, index) => (
-            index < 40 && <li key={item} className="flex items-center">
-              <input id="default-checkbox" type="checkbox" onClick={handleCheck(index)} className="w-4 h-4 text-forest bg-gray-100 border-gray-300 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 mr-2" />
-              <p className={classNames(checked[index] ? 'line-through text-gray-400' : '')}>{item.M.GroceryName.S}, {item.M.GroceryQuantity.S}</p>
+            <li className='flex pb-2 items-center' onClick={() => setListClicked(listClicked == item ? {} : item)}>
+              <FontAwesomeIcon icon={listClicked == item ? faCaretUp : faCaretDown} style={{ color: "black" }} className='text-lg pr-2' />
+              <div className='text-lg font-extrabold'>
+                {item.Name.toUpperCase()}
+              </div>
+              <span className='flex ml-auto bg-gray-300 px-2 rounded-full font-semibold text-white text-sm justify-center items-center'>
+                {item.Groceries.length}
+              </span>
             </li>
-          ))} */}
+          ))}
         </ul>
         <div className='w-full p-3'>
           <input value={groceryName} placeholder="Add a grocery item" onChange={(ev) => setGroceryName(ev.target.value)}
