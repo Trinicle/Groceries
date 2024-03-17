@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import RecipeFeed from "../views/RecipeFeed.js"
 import Navbar from "./Navbar.js";
 import GroceryHomeList from "../views/GroceryHomeList.js"
+import Lists from "../views/Lists.js"
+
+const guestPicture = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'
 
 export default function Home(props) {
 	const { loggedIn, setLoggedIn, user, setUser } = props
+
 	const [userData, setUserData] = useState()
 	const [recipeData, setRecipeData] = useState([])
-	const [groceryData, setGroceryData] = useState([])
+	const [listData, setListData] = useState([])
 	const navigate = useNavigate()
-
-	const guestPicture = 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'
 
 	useEffect(() => {
 		const isLoggedIn = window.localStorage.getItem('loggedIn');
@@ -33,8 +35,7 @@ export default function Home(props) {
 				const data = result.Response
 				setUserData(data)
 				setRecipeData(data.Recipes)
-				setGroceryData(data.Groceries)
-				console.log(data)
+				setListData(data.Lists)
 			}
 			fetchData(user)
 		}
@@ -49,14 +50,10 @@ export default function Home(props) {
 		<div className="bg-warm-gray h-dvh">
 			<Navbar user={userData} guest={user === ""} setLoggedIn={setLoggedIn} setUser={setUser} />
 			<div className="pt-52px">
-				<div className="max-w-7xl mx-auto">
-					<div className="mt-8 grid grid-cols-3-6 gap-6">
-						<div>
-							<GroceryHomeList groceryData={groceryData} username={userData ? userData.Username : null} />
-						</div>
-						<div>
-							<RecipeFeed recipeData={recipeData} setRecipeSData={setRecipeData} />
-						</div>
+				<div className="max-w-[100rem] mx-auto">
+					<div className="mt-8 grid grid-cols-home gap-6">
+						<GroceryHomeList listData={listData} setListData={setListData} username={userData?.Username} />
+						<RecipeFeed recipeData={recipeData} setRecipeSData={setRecipeData} />
 					</div>
 				</div>
 			</div>

@@ -35,7 +35,6 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState(false)
   const [pictureError, setPictureError] = useState(false)
 
-
   const navigate = useNavigate()
 
   const isImgUrl = (url) => {

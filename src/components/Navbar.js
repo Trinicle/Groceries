@@ -5,19 +5,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBell, faBars, faHouseChimney, faMagnifyingGlass, faBook, faBookOpenReader } from "@fortawesome/free-solid-svg-icons"
 import classNames from 'classnames';
 
+const navigation = [
+  { name: 'Home', href: 'home', current: true, icon: faHouseChimney },
+  { name: 'Recipes', href: 'home/recipes', current: false, icon: faBook },
+  { name: 'Your Recipes', href: 'home/my-recipes', current: false, icon: faBookOpenReader }
+]
+
+const defaultPicture = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
 
 export default function Navbar(props) {
   const { user, setLoggedIn, setUser } = props
 
-  const navigation = [
-    { name: 'Home', href: 'home', current: true, icon: faHouseChimney },
-    { name: 'Recipes', href: 'home/recipes', current: false, icon: faBook },
-    { name: 'Your Recipes', href: 'home/my-recipes', current: false, icon: faBookOpenReader }
-  ]
-
   const navigate = useNavigate()
-
-  const defaultPicture = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
 
   const signOut = (e) => {
     e.preventDefault()

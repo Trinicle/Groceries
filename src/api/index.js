@@ -1,4 +1,4 @@
-const { DynamoDBClient, ListTablesCommand, GetItemCommand, PutItemCommand, TransactWriteItemsCommand, UpdateItemCommand } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, ListTablesCommand, GetItemCommand, PutItemCommand, TransactWriteItemsCommand, UpdateItemCommand, BatchGetItemCommand } = require("@aws-sdk/client-dynamodb");
 require('dotenv').config();
 
 const client = new DynamoDBClient({
@@ -34,6 +34,14 @@ app.post("/register", async (req, resp) => {
 			Username: { S: username }
 		}
 	}
+	const listParams = {
+		TableName: 'groc_userLists',
+		Item: {
+			"Username": { S: username }, 
+			"Name": { S: "Basic List" },
+			"Groceries": { L: [] }
+		}
+	}
 	if (error) {
 		resp.send({
 			"error": true
@@ -43,7 +51,9 @@ app.post("/register", async (req, resp) => {
 	try {
 		const command = new GetItemCommand(params);
 		const data = await client.send(command);
-		const user = data.Item ? data.Item.Username.S : null
+
+		const listCommand = new GetItemCommand()
+		const user = data?.Item;
 		if (!user) {
 			const hashed = await bcrypt.hash(password, salt)
 			const params = {
@@ -55,13 +65,17 @@ app.post("/register", async (req, resp) => {
 					"LastName": { S: lastname },
 					"Title": { S: title },
 					"Picture": { S: picture ? picture : "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg" },
-					"Groceries": { L: [] },
+					"Lists": { L: [{ S: "Basic List" }] },
 					"Favorites": { L: [] },
 					"Recipes": { L: [] },
 				}
 			}
 			const command = new PutItemCommand(params);
 			const data = await client.send(command);
+
+			const listCommand = new PutItemCommand(listParams);
+			const listData = await client.send(listCommand);
+
 			resp.send({
 				"error": false
 			})
@@ -127,20 +141,52 @@ app.get("/home/:user", async (req, resp) => {
 	try {
 		const command = new GetItemCommand(params);
 		const data = await client.send(command);
-		const userData = data.Item ? data.Item : null;
+
+		const userData = data?.Item;
+		const searchTerms = userData.Lists.L;
+
+		const keys = [];
+		searchTerms.forEach(term => {
+			keys.push({
+				Name: { S: term.S }
+			})
+		})
+
+		const listParams = {
+			TableName: 'groc_userLists',
+			Keys: keys
+		}
+
+		const listCommand = new BatchGetItemCommand({
+			RequestItems: {
+				"groc_userLists": listParams
+			}
+		});
+		const listData = await client.send(listCommand);
+		const userListData = listData?.Responses.groc_userLists;
+
+		const groceries = [];
+		userListData.forEach(list => {
+			groceries.push({
+				Name: list.Name.S,
+				Groceries: list.Groceries.L,
+			})
+		})
+
 		const Response = {
 			Username: userData.Username.S,
 			FirstName: userData.FirstName.S,
 			LastName: userData.LastName.S,
 			Picture: userData.Picture.S,
 			Title: userData.Title.S,
-			Groceries: userData.Groceries.L,
+			Lists: groceries,
 			Favorites: userData.Favorites.L,
 			Recipes: userData.Recipes.L,
 		}
+
 		resp.send({ Response })
 	} catch (err) {
-
+		console.log(err)
 	}
 })
 
@@ -170,7 +216,9 @@ app.post("/home", async (req, resp) => {
 
 	try {
 		const command = new UpdateItemCommand(params);
-		await client.send(command);
+		let results = await client.send(command);
+		results = results.Attributes
+		resp.send({results})
 	} catch (err) {
 		console.log(err)
 	}

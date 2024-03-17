@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        josefin: ["Josefin", "sans-serif"] 
+        josefin: ["Josefin", "sans-serif"],
+        paytone: ["Paytone One", "sans-serif"]
       },
       textColor: {
         'dull-white': '#FFFFFFB3',
@@ -30,7 +31,7 @@ module.exports = {
         "52px": "52px"
       },
       gridTemplateColumns: {
-        "3-6": "3fr 6fr"
+        "home": "1fr 2fr"
       }
 
     },

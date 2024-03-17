@@ -82,8 +82,8 @@ export default function Login(props) {
 										</div>
 										<input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
 											className={classNames(
-												error ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
-													'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
+												error ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border',
+												'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
 											)}
 										/>
 									</div>
@@ -102,10 +102,10 @@ export default function Login(props) {
 									</div>
 								</div>
 								<input className='rounded-full border-2 border-black bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={login} value={'Sign in'} />
-								<div class="flex items-center text-lg">
-									<div class="flex-1 border-t-2 border-gray-200"></div>
-									<span class="px-3 text-gray-500">or</span>
-									<div class="flex-1 border-t-2 border-gray-200"></div>
+								<div className="flex items-center text-lg">
+									<div className="flex-1 border-t-2 border-gray-200"></div>
+									<span className="px-3 text-gray-500">or</span>
+									<div className="flex-1 border-t-2 border-gray-200"></div>
 								</div>
 								<input className='rounded-full border-2 border-black bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={guestLogin} value={'Continue as guest'} />
 							</form>

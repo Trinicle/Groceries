@@ -1,5 +1,5 @@
 import { Dialog, Transition, Combobox } from '@headlessui/react'
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation, faCheck, faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import classNames from 'classnames';
@@ -20,15 +20,14 @@ const items = [
   { id: 13, name: 'kilogram' },
 ]
 
-export default function GroceryModal(props) {
-  const { open, setOpen, username } = props
+export default function AddGrocery(props) {
+	const { setGroceryData, username } = props;
+	const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [groceryName, setGroceryName] = useState("")
   const [groceryQuantity, setGroceryQuantity] = useState("")
   const [groceryUnit, setGroceryUnit] = useState(items[0])
   const [query, setQuery] = useState('')
-
-  console.log(open)
 
   const filter =
     query === ''
@@ -52,10 +51,34 @@ export default function GroceryModal(props) {
       }
     }
     )
+    result = await result.json()
+    const data = result.results.Groceries.L
+    setGroceryData(data)
   }
 
-  return (
-    <Transition appear show={open} as={Fragment}>
+  useEffect(() => {
+    const fetchData = async (user) => {
+      let result = await fetch(
+        `http://localhost:5000/home/${user}`, {
+        method: "get",
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      result = await result.json()
+      const data = result.Response
+      setGroceryData(data.Groceries)
+    }
+    fetchData(username)
+	}, [groceryName])
+
+	console.log("Loading Add Grocery Modal...")
+	return (
+		<div className='pb-3 px-3'>
+			<button className='flex justify-center w-full rounded-full text-forest ring-1 ring-forest hover:ring-2 font-bold' onClick={() => setOpen(true)}>
+				Add Grocery
+			</button>
+			<Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative" onClose={() => setOpen(false)}>
         <Transition.Child
           as={Fragment}
@@ -189,5 +212,6 @@ export default function GroceryModal(props) {
         </div>
       </Dialog>
     </Transition>
-  )
+		</div>
+	)
 }
