@@ -31,18 +31,18 @@ export default function GroceryUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Nam: "",
-    Checked: false,
+    name: "",
+    checked: false,
   };
-  const [Nam, setNam] = React.useState(initialValues.Nam);
-  const [Checked, setChecked] = React.useState(initialValues.Checked);
+  const [name, setName] = React.useState(initialValues.name);
+  const [checked, setChecked] = React.useState(initialValues.checked);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = groceryRecord
       ? { ...initialValues, ...groceryRecord }
       : initialValues;
-    setNam(cleanValues.Nam);
-    setChecked(cleanValues.Checked);
+    setName(cleanValues.name);
+    setChecked(cleanValues.checked);
     setErrors({});
   };
   const [groceryRecord, setGroceryRecord] = React.useState(groceryModelProp);
@@ -62,8 +62,8 @@ export default function GroceryUpdateForm(props) {
   }, [idProp, groceryModelProp]);
   React.useEffect(resetStateValues, [groceryRecord]);
   const validations = {
-    Nam: [],
-    Checked: [],
+    name: [],
+    checked: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -91,8 +91,8 @@ export default function GroceryUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Nam: Nam ?? null,
-          Checked: Checked ?? null,
+          name: name ?? null,
+          checked: checked ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -145,54 +145,54 @@ export default function GroceryUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Nam"
+        label="Name"
         isRequired={false}
         isReadOnly={false}
-        value={Nam}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Nam: value,
-              Checked,
+              name: value,
+              checked,
             };
             const result = onChange(modelFields);
-            value = result?.Nam ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.Nam?.hasError) {
-            runValidationTasks("Nam", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setNam(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("Nam", Nam)}
-        errorMessage={errors.Nam?.errorMessage}
-        hasError={errors.Nam?.hasError}
-        {...getOverrideProps(overrides, "Nam")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <SwitchField
         label="Checked"
         defaultChecked={false}
         isDisabled={false}
-        isChecked={Checked}
+        isChecked={checked}
         onChange={(e) => {
           let value = e.target.checked;
           if (onChange) {
             const modelFields = {
-              Nam,
-              Checked: value,
+              name,
+              checked: value,
             };
             const result = onChange(modelFields);
-            value = result?.Checked ?? value;
+            value = result?.checked ?? value;
           }
-          if (errors.Checked?.hasError) {
-            runValidationTasks("Checked", value);
+          if (errors.checked?.hasError) {
+            runValidationTasks("checked", value);
           }
           setChecked(value);
         }}
-        onBlur={() => runValidationTasks("Checked", Checked)}
-        errorMessage={errors.Checked?.errorMessage}
-        hasError={errors.Checked?.hasError}
-        {...getOverrideProps(overrides, "Checked")}
+        onBlur={() => runValidationTasks("checked", checked)}
+        errorMessage={errors.checked?.errorMessage}
+        hasError={errors.checked?.hasError}
+        {...getOverrideProps(overrides, "checked")}
       ></SwitchField>
       <Flex
         justifyContent="space-between"

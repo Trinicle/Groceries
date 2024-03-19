@@ -23,16 +23,16 @@ export default function IngredientsCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Name: "",
+    name: "",
   };
-  const [Name, setName] = React.useState(initialValues.Name);
+  const [name, setName] = React.useState(initialValues.name);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.Name);
+    setName(initialValues.name);
     setErrors({});
   };
   const validations = {
-    Name: [],
+    name: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -60,7 +60,7 @@ export default function IngredientsCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Name,
+          name,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -118,25 +118,25 @@ export default function IngredientsCreateForm(props) {
         label="Name"
         isRequired={false}
         isReadOnly={false}
-        value={Name}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Name: value,
+              name: value,
             };
             const result = onChange(modelFields);
-            value = result?.Name ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.Name?.hasError) {
-            runValidationTasks("Name", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
           setName(value);
         }}
-        onBlur={() => runValidationTasks("Name", Name)}
-        errorMessage={errors.Name?.errorMessage}
-        hasError={errors.Name?.hasError}
-        {...getOverrideProps(overrides, "Name")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <Flex
         justifyContent="space-between"

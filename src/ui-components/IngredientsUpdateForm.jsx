@@ -25,15 +25,15 @@ export default function IngredientsUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Name: "",
+    name: "",
   };
-  const [Name, setName] = React.useState(initialValues.Name);
+  const [name, setName] = React.useState(initialValues.name);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = ingredientsRecord
       ? { ...initialValues, ...ingredientsRecord }
       : initialValues;
-    setName(cleanValues.Name);
+    setName(cleanValues.name);
     setErrors({});
   };
   const [ingredientsRecord, setIngredientsRecord] =
@@ -54,7 +54,7 @@ export default function IngredientsUpdateForm(props) {
   }, [idProp, ingredientsModelProp]);
   React.useEffect(resetStateValues, [ingredientsRecord]);
   const validations = {
-    Name: [],
+    name: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -82,7 +82,7 @@ export default function IngredientsUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Name: Name ?? null,
+          name: name ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -138,25 +138,25 @@ export default function IngredientsUpdateForm(props) {
         label="Name"
         isRequired={false}
         isReadOnly={false}
-        value={Name}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Name: value,
+              name: value,
             };
             const result = onChange(modelFields);
-            value = result?.Name ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.Name?.hasError) {
-            runValidationTasks("Name", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
           setName(value);
         }}
-        onBlur={() => runValidationTasks("Name", Name)}
-        errorMessage={errors.Name?.errorMessage}
-        hasError={errors.Name?.hasError}
-        {...getOverrideProps(overrides, "Name")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -22,18 +22,18 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type GroceryCreateFormInputValues = {
-    Nam?: string;
-    Checked?: boolean;
+    name?: string;
+    checked?: boolean;
 };
 export declare type GroceryCreateFormValidationValues = {
-    Nam?: ValidationFunction<string>;
-    Checked?: ValidationFunction<boolean>;
+    name?: ValidationFunction<string>;
+    checked?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type GroceryCreateFormOverridesProps = {
     GroceryCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    Nam?: PrimitiveOverrideProps<TextFieldProps>;
-    Checked?: PrimitiveOverrideProps<SwitchFieldProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
+    checked?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type GroceryCreateFormProps = React.PropsWithChildren<{
     overrides?: GroceryCreateFormOverridesProps | undefined | null;

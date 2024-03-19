@@ -25,35 +25,32 @@ export default function UsersUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Username: "",
-    HashedPassword: "",
-    FirstName: "",
-    LastName: "",
-    Favorites: "",
-    Picture: "",
-    Title: "",
+    username: "",
+    hashedpassword: "",
+    firstname: "",
+    lastname: "",
+    picture: "",
+    title: "",
   };
-  const [Username, setUsername] = React.useState(initialValues.Username);
-  const [HashedPassword, setHashedPassword] = React.useState(
-    initialValues.HashedPassword
+  const [username, setUsername] = React.useState(initialValues.username);
+  const [hashedpassword, setHashedpassword] = React.useState(
+    initialValues.hashedpassword
   );
-  const [FirstName, setFirstName] = React.useState(initialValues.FirstName);
-  const [LastName, setLastName] = React.useState(initialValues.LastName);
-  const [Favorites, setFavorites] = React.useState(initialValues.Favorites);
-  const [Picture, setPicture] = React.useState(initialValues.Picture);
-  const [Title, setTitle] = React.useState(initialValues.Title);
+  const [firstname, setFirstname] = React.useState(initialValues.firstname);
+  const [lastname, setLastname] = React.useState(initialValues.lastname);
+  const [picture, setPicture] = React.useState(initialValues.picture);
+  const [title, setTitle] = React.useState(initialValues.title);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = usersRecord
       ? { ...initialValues, ...usersRecord }
       : initialValues;
-    setUsername(cleanValues.Username);
-    setHashedPassword(cleanValues.HashedPassword);
-    setFirstName(cleanValues.FirstName);
-    setLastName(cleanValues.LastName);
-    setFavorites(cleanValues.Favorites);
-    setPicture(cleanValues.Picture);
-    setTitle(cleanValues.Title);
+    setUsername(cleanValues.username);
+    setHashedpassword(cleanValues.hashedpassword);
+    setFirstname(cleanValues.firstname);
+    setLastname(cleanValues.lastname);
+    setPicture(cleanValues.picture);
+    setTitle(cleanValues.title);
     setErrors({});
   };
   const [usersRecord, setUsersRecord] = React.useState(usersModelProp);
@@ -73,13 +70,12 @@ export default function UsersUpdateForm(props) {
   }, [idProp, usersModelProp]);
   React.useEffect(resetStateValues, [usersRecord]);
   const validations = {
-    Username: [],
-    HashedPassword: [],
-    FirstName: [],
-    LastName: [],
-    Favorites: [],
-    Picture: [],
-    Title: [],
+    username: [],
+    hashedpassword: [],
+    firstname: [],
+    lastname: [],
+    picture: [],
+    title: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -107,13 +103,12 @@ export default function UsersUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Username: Username ?? null,
-          HashedPassword: HashedPassword ?? null,
-          FirstName: FirstName ?? null,
-          LastName: LastName ?? null,
-          Favorites: Favorites ?? null,
-          Picture: Picture ?? null,
-          Title: Title ?? null,
+          username: username ?? null,
+          hashedpassword: hashedpassword ?? null,
+          firstname: firstname ?? null,
+          lastname: lastname ?? null,
+          picture: picture ?? null,
+          title: title ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -169,211 +164,175 @@ export default function UsersUpdateForm(props) {
         label="Username"
         isRequired={false}
         isReadOnly={false}
-        value={Username}
+        value={username}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Username: value,
-              HashedPassword,
-              FirstName,
-              LastName,
-              Favorites,
-              Picture,
-              Title,
+              username: value,
+              hashedpassword,
+              firstname,
+              lastname,
+              picture,
+              title,
             };
             const result = onChange(modelFields);
-            value = result?.Username ?? value;
+            value = result?.username ?? value;
           }
-          if (errors.Username?.hasError) {
-            runValidationTasks("Username", value);
+          if (errors.username?.hasError) {
+            runValidationTasks("username", value);
           }
           setUsername(value);
         }}
-        onBlur={() => runValidationTasks("Username", Username)}
-        errorMessage={errors.Username?.errorMessage}
-        hasError={errors.Username?.hasError}
-        {...getOverrideProps(overrides, "Username")}
+        onBlur={() => runValidationTasks("username", username)}
+        errorMessage={errors.username?.errorMessage}
+        hasError={errors.username?.hasError}
+        {...getOverrideProps(overrides, "username")}
       ></TextField>
       <TextField
-        label="Hashed password"
+        label="Hashedpassword"
         isRequired={false}
         isReadOnly={false}
-        value={HashedPassword}
+        value={hashedpassword}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Username,
-              HashedPassword: value,
-              FirstName,
-              LastName,
-              Favorites,
-              Picture,
-              Title,
+              username,
+              hashedpassword: value,
+              firstname,
+              lastname,
+              picture,
+              title,
             };
             const result = onChange(modelFields);
-            value = result?.HashedPassword ?? value;
+            value = result?.hashedpassword ?? value;
           }
-          if (errors.HashedPassword?.hasError) {
-            runValidationTasks("HashedPassword", value);
+          if (errors.hashedpassword?.hasError) {
+            runValidationTasks("hashedpassword", value);
           }
-          setHashedPassword(value);
+          setHashedpassword(value);
         }}
-        onBlur={() => runValidationTasks("HashedPassword", HashedPassword)}
-        errorMessage={errors.HashedPassword?.errorMessage}
-        hasError={errors.HashedPassword?.hasError}
-        {...getOverrideProps(overrides, "HashedPassword")}
+        onBlur={() => runValidationTasks("hashedpassword", hashedpassword)}
+        errorMessage={errors.hashedpassword?.errorMessage}
+        hasError={errors.hashedpassword?.hasError}
+        {...getOverrideProps(overrides, "hashedpassword")}
       ></TextField>
       <TextField
-        label="First name"
+        label="Firstname"
         isRequired={false}
         isReadOnly={false}
-        value={FirstName}
+        value={firstname}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Username,
-              HashedPassword,
-              FirstName: value,
-              LastName,
-              Favorites,
-              Picture,
-              Title,
+              username,
+              hashedpassword,
+              firstname: value,
+              lastname,
+              picture,
+              title,
             };
             const result = onChange(modelFields);
-            value = result?.FirstName ?? value;
+            value = result?.firstname ?? value;
           }
-          if (errors.FirstName?.hasError) {
-            runValidationTasks("FirstName", value);
+          if (errors.firstname?.hasError) {
+            runValidationTasks("firstname", value);
           }
-          setFirstName(value);
+          setFirstname(value);
         }}
-        onBlur={() => runValidationTasks("FirstName", FirstName)}
-        errorMessage={errors.FirstName?.errorMessage}
-        hasError={errors.FirstName?.hasError}
-        {...getOverrideProps(overrides, "FirstName")}
+        onBlur={() => runValidationTasks("firstname", firstname)}
+        errorMessage={errors.firstname?.errorMessage}
+        hasError={errors.firstname?.hasError}
+        {...getOverrideProps(overrides, "firstname")}
       ></TextField>
       <TextField
-        label="Last name"
+        label="Lastname"
         isRequired={false}
         isReadOnly={false}
-        value={LastName}
+        value={lastname}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Username,
-              HashedPassword,
-              FirstName,
-              LastName: value,
-              Favorites,
-              Picture,
-              Title,
+              username,
+              hashedpassword,
+              firstname,
+              lastname: value,
+              picture,
+              title,
             };
             const result = onChange(modelFields);
-            value = result?.LastName ?? value;
+            value = result?.lastname ?? value;
           }
-          if (errors.LastName?.hasError) {
-            runValidationTasks("LastName", value);
+          if (errors.lastname?.hasError) {
+            runValidationTasks("lastname", value);
           }
-          setLastName(value);
+          setLastname(value);
         }}
-        onBlur={() => runValidationTasks("LastName", LastName)}
-        errorMessage={errors.LastName?.errorMessage}
-        hasError={errors.LastName?.hasError}
-        {...getOverrideProps(overrides, "LastName")}
-      ></TextField>
-      <TextField
-        label="Favorites"
-        isRequired={false}
-        isReadOnly={false}
-        value={Favorites}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              Username,
-              HashedPassword,
-              FirstName,
-              LastName,
-              Favorites: value,
-              Picture,
-              Title,
-            };
-            const result = onChange(modelFields);
-            value = result?.Favorites ?? value;
-          }
-          if (errors.Favorites?.hasError) {
-            runValidationTasks("Favorites", value);
-          }
-          setFavorites(value);
-        }}
-        onBlur={() => runValidationTasks("Favorites", Favorites)}
-        errorMessage={errors.Favorites?.errorMessage}
-        hasError={errors.Favorites?.hasError}
-        {...getOverrideProps(overrides, "Favorites")}
+        onBlur={() => runValidationTasks("lastname", lastname)}
+        errorMessage={errors.lastname?.errorMessage}
+        hasError={errors.lastname?.hasError}
+        {...getOverrideProps(overrides, "lastname")}
       ></TextField>
       <TextField
         label="Picture"
         isRequired={false}
         isReadOnly={false}
-        value={Picture}
+        value={picture}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Username,
-              HashedPassword,
-              FirstName,
-              LastName,
-              Favorites,
-              Picture: value,
-              Title,
+              username,
+              hashedpassword,
+              firstname,
+              lastname,
+              picture: value,
+              title,
             };
             const result = onChange(modelFields);
-            value = result?.Picture ?? value;
+            value = result?.picture ?? value;
           }
-          if (errors.Picture?.hasError) {
-            runValidationTasks("Picture", value);
+          if (errors.picture?.hasError) {
+            runValidationTasks("picture", value);
           }
           setPicture(value);
         }}
-        onBlur={() => runValidationTasks("Picture", Picture)}
-        errorMessage={errors.Picture?.errorMessage}
-        hasError={errors.Picture?.hasError}
-        {...getOverrideProps(overrides, "Picture")}
+        onBlur={() => runValidationTasks("picture", picture)}
+        errorMessage={errors.picture?.errorMessage}
+        hasError={errors.picture?.hasError}
+        {...getOverrideProps(overrides, "picture")}
       ></TextField>
       <TextField
         label="Title"
         isRequired={false}
         isReadOnly={false}
-        value={Title}
+        value={title}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Username,
-              HashedPassword,
-              FirstName,
-              LastName,
-              Favorites,
-              Picture,
-              Title: value,
+              username,
+              hashedpassword,
+              firstname,
+              lastname,
+              picture,
+              title: value,
             };
             const result = onChange(modelFields);
-            value = result?.Title ?? value;
+            value = result?.title ?? value;
           }
-          if (errors.Title?.hasError) {
-            runValidationTasks("Title", value);
+          if (errors.title?.hasError) {
+            runValidationTasks("title", value);
           }
           setTitle(value);
         }}
-        onBlur={() => runValidationTasks("Title", Title)}
-        errorMessage={errors.Title?.errorMessage}
-        hasError={errors.Title?.hasError}
-        {...getOverrideProps(overrides, "Title")}
+        onBlur={() => runValidationTasks("title", title)}
+        errorMessage={errors.title?.errorMessage}
+        hasError={errors.title?.hasError}
+        {...getOverrideProps(overrides, "title")}
       ></TextField>
       <Flex
         justifyContent="space-between"

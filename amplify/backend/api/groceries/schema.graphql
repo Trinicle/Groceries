@@ -1,41 +1,41 @@
 type Ingredients @model @auth(rules: [{allow: public}]) {
   id: ID!
   recipes: [Recipe] @manyToMany(relationName: "RecipeIngredients")
-  Name: String
+  name: String
 }
 
 type Recipe @model @auth(rules: [{allow: public}]) {
   id: ID!
-  Name: String
-  Description: String
+  name: String
+  description: String
   usersID: ID! @index(name: "byUsers")
   Ingredients: [Ingredients] @manyToMany(relationName: "RecipeIngredients")
+  userss: [Users] @manyToMany(relationName: "UsersRecipe")
 }
 
 type Grocery @model @auth(rules: [{allow: public}]) {
   id: ID!
-  Nam: String
+  name: String
   lists: [List] @manyToMany(relationName: "ListGrocery")
-  Checked: Boolean
+  checked: Boolean
 }
 
 type List @model @auth(rules: [{allow: public}]) {
   id: ID!
-  Username: String
-  Name: String
+  name: String
   Groceries: [Grocery] @manyToMany(relationName: "ListGrocery")
   usersID: ID! @index(name: "byUsers")
 }
 
 type Users @model @auth(rules: [{allow: public}]) {
   id: ID!
-  Username: String
-  HashedPassword: String
-  FirstName: String
-  LastName: String
-  Favorites: String
-  Picture: String
-  Title: String
+  username: String
+  hashedpassword: String
+  firstname: String
+  lastname: String
+  picture: String
+  title: String
   Lists: [List] @hasMany(indexName: "byUsers", fields: ["id"])
   Recipes: [Recipe] @hasMany(indexName: "byUsers", fields: ["id"])
+  Favorites: [Recipe] @manyToMany(relationName: "UsersRecipe")
 }

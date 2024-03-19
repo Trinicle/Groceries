@@ -22,33 +22,30 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type UsersCreateFormInputValues = {
-    Username?: string;
-    HashedPassword?: string;
-    FirstName?: string;
-    LastName?: string;
-    Favorites?: string;
-    Picture?: string;
-    Title?: string;
+    username?: string;
+    hashedpassword?: string;
+    firstname?: string;
+    lastname?: string;
+    picture?: string;
+    title?: string;
 };
 export declare type UsersCreateFormValidationValues = {
-    Username?: ValidationFunction<string>;
-    HashedPassword?: ValidationFunction<string>;
-    FirstName?: ValidationFunction<string>;
-    LastName?: ValidationFunction<string>;
-    Favorites?: ValidationFunction<string>;
-    Picture?: ValidationFunction<string>;
-    Title?: ValidationFunction<string>;
+    username?: ValidationFunction<string>;
+    hashedpassword?: ValidationFunction<string>;
+    firstname?: ValidationFunction<string>;
+    lastname?: ValidationFunction<string>;
+    picture?: ValidationFunction<string>;
+    title?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type UsersCreateFormOverridesProps = {
     UsersCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    Username?: PrimitiveOverrideProps<TextFieldProps>;
-    HashedPassword?: PrimitiveOverrideProps<TextFieldProps>;
-    FirstName?: PrimitiveOverrideProps<TextFieldProps>;
-    LastName?: PrimitiveOverrideProps<TextFieldProps>;
-    Favorites?: PrimitiveOverrideProps<TextFieldProps>;
-    Picture?: PrimitiveOverrideProps<TextFieldProps>;
-    Title?: PrimitiveOverrideProps<TextFieldProps>;
+    username?: PrimitiveOverrideProps<TextFieldProps>;
+    hashedpassword?: PrimitiveOverrideProps<TextFieldProps>;
+    firstname?: PrimitiveOverrideProps<TextFieldProps>;
+    lastname?: PrimitiveOverrideProps<TextFieldProps>;
+    picture?: PrimitiveOverrideProps<TextFieldProps>;
+    title?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type UsersCreateFormProps = React.PropsWithChildren<{
     overrides?: UsersCreateFormOverridesProps | undefined | null;
