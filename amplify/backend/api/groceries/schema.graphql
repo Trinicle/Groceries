@@ -1,41 +1,41 @@
-type GroceryItem @model @auth(rules: [{allow: public}]) {
+type Ingredients @model @auth(rules: [{allow: public}]) {
   id: ID!
+  recipes: [Recipe] @manyToMany(relationName: "RecipeIngredients")
   Name: String
-  Checked: Boolean
-}
-
-type Ingredient @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  Name: String
-  recipes: [Recipe] @manyToMany(relationName: "RecipeIngredient")
 }
 
 type Recipe @model @auth(rules: [{allow: public}]) {
   id: ID!
   Name: String
-  Picture: String
-  Timestamp: AWSTimestamp
-  userID: ID! @index(name: "byUser")
-  Ingredients: [Ingredient] @manyToMany(relationName: "RecipeIngredient")
-  users: [User] @manyToMany(relationName: "UserRecipe")
+  Description: String
+  usersID: ID! @index(name: "byUsers")
+  Ingredients: [Ingredients] @manyToMany(relationName: "RecipeIngredients")
 }
 
-type GroceryList @model @auth(rules: [{allow: public}]) {
+type Grocery @model @auth(rules: [{allow: public}]) {
   id: ID!
-  Name: String
-  Groceries: [GroceryItem] @manyToMany(relationName: "GroceryListGroceryItem")
-  userID: ID! @index(name: "byUser")
+  Nam: String
+  lists: [List] @manyToMany(relationName: "ListGrocery")
+  Checked: Boolean
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type List @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Username: String
+  Name: String
+  Groceries: [Grocery] @manyToMany(relationName: "ListGrocery")
+  usersID: ID! @index(name: "byUsers")
+}
+
+type Users @model @auth(rules: [{allow: public}]) {
   id: ID!
   Username: String
   HashedPassword: String
   FirstName: String
   LastName: String
+  Favorites: String
   Picture: String
   Title: String
-  Lists: [GroceryList] @hasMany(indexName: "byUser", fields: ["id"])
-  OwnedRecipes: [GroceryList] @hasMany(indexName: "byUser", fields: ["id"])
-  FavoriteRecipes: [Recipe] @manyToMany(relationName: "UserRecipe")
+  Lists: [List] @hasMany(indexName: "byUsers", fields: ["id"])
+  Recipes: [Recipe] @hasMany(indexName: "byUsers", fields: ["id"])
 }
