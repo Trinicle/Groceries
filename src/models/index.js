@@ -4,14 +4,15 @@ import { schema } from './schema';
 
 
 
-const { Ingredient, Recipe, Grocery, List, User, RecipeIngredient, ListGrocery } = initSchema(schema);
+const { Ingredients, Recipe, Grocery, List, User, RecipeIngredients, RecipeUser, ListGrocery } = initSchema(schema);
 
 export {
-  Ingredient,
+  Ingredients,
   Recipe,
   Grocery,
   List,
   User,
-  RecipeIngredient,
+  RecipeIngredients,
+  RecipeUser,
   ListGrocery
 };

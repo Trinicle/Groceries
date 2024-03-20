@@ -4,6 +4,11 @@ import { Listbox, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock, faCircleExclamation, faCamera, faUtensils, faCheck, faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import classNames from 'classnames';
+import { generateClient } from 'aws-amplify/api';
+import * as mutations from '../graphql/mutations';
+const bcrypt = require('bcryptjs');
+const client = generateClient();
+const saltENV = Number(process.env.REACT_APP_SALT);
 
 const people = [
   { name: 'N/A' },
@@ -24,16 +29,21 @@ const people = [
 ]
 
 export default function Register() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [lastname, setLastName] = useState('')
-  const [firstname, setFirstName] = useState('')
-  const [picture, setPicture] = useState('')
-  const [title, setTitle] = useState(people[0])
-  const [usernameError, setUsernameError] = useState(false)
-  const [nameError, setNameError] = useState(false)
-  const [passwordError, setPasswordError] = useState(false)
-  const [pictureError, setPictureError] = useState(false)
+  const [userInfo, setUserInfo] = useState({
+    username: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    picture: '',
+    title: people[0].name
+  })
+
+  const [registerError, setRegisterError] = useState({
+    usernameError: false,
+    nameError: false,
+    passwordError: false,
+    pictureError: false,
+  })
 
   const navigate = useNavigate()
 
@@ -50,53 +60,82 @@ export default function Register() {
     });
   }
 
+  const checkErrors = async () => {
+    let areErrors = false;
+    if (userInfo.username === "") {
+      setRegisterError({ ...registerError, usernameError: true })
+      areErrors = true
+    }
+    if (userInfo.firstname === "" || userInfo.lastname === "") {
+      setRegisterError({ ...registerError, nameError: true })
+      areErrors = true
+    }
+    let temp = await isImgUrl(userInfo.picture);
+    if (temp != userInfo.picture) {
+      setUserInfo({ ...userInfo, picture: "" })
+      setRegisterError({ ...registerError, pictureError: true })
+    } 
+    if (userInfo.password === "") {
+      setRegisterError({ ...registerError, passwordError: true })
+      areErrors = true
+    }
+    return areErrors
+  }
+
   const onButtonClick = async (e) => {
     e.preventDefault();
-    let error = false
-    let temp = await isImgUrl(picture);
-    if (temp != picture) {
-      setPicture(temp)
-      setPictureError(true)
-      error = true
-    } else {
-      setPictureError(false);
+
+    const salt = bcrypt.genSaltSync(saltENV);
+    const hash = bcrypt.hashSync(userInfo.password, salt);
+
+    const userDetails = {
+      username: userInfo.username,
+      hashedpassword: hash,
+      firstname: userInfo.firstname,
+      lastname: userInfo.lastname,
+      picture: userInfo.picture,
+      title: userInfo.title
     }
-    if (firstname === "" || lastname === "") {
-      setNameError(true)
-      error = true
-    }
-    if (password == "") {
-      setPasswordError(true)
-      error = true
-    }
-    if (username === "") {
-      setUsernameError(true)
-      error = true
-    }
-    let result = await fetch(
-      'http://localhost:5000/register', {
-      method: "post",
-      body: JSON.stringify({ username, password, firstname, lastname, picture, title, error }),
-      headers: {
-        'Content-Type': 'application/json'
+
+    const errors = await checkErrors()
+    if(!errors) {
+      try {
+        const newUser = await client.graphql({    //ERR_NAME_NOT_RESOLVED for localhost:3000 but works for http://127.0.0.1:3000/
+          query: mutations.createUser,
+          variables: { input: userDetails }
+        })
+        console.log(newUser);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setUserInfo({
+          username: '',
+          password: '',
+          firstname: '',
+          lastname: '',
+          picture: '',
+          title: people[0]
+        })
+        setRegisterError({
+          usernameError: false,
+          nameError: false,
+          passwordError: false,
+          pictureError: false,
+        })
+        navigate("/login")
       }
-    }
-    )
-    result = await result.json();
-    if (!result.error && !error) {
-      setUsername("");
-      setPassword("");
-      setLastName("");
-      setFirstName("");
-      setPicture("");
-      setUsernameError(false);
-      setNameError(false);
-      setPasswordError(false);
-      setPictureError(false);
-      navigate("/login")
     } else {
-      setUsernameError(result.error)
+      console.log("Error when registering")
     }
+  }
+
+  const handleChange = (e) => {
+    if(!e.target?.name) {
+      setUserInfo({ ...userInfo, title: e.name })
+    } else {
+      setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
+    }
+    console.log(userInfo)
   }
 
   return (
@@ -109,17 +148,21 @@ export default function Register() {
               <h1 className="text-4xl font-semibold pb-2">Sign up</h1>
               <p>Stay updated on your shopping</p>
             </div>
-            <p className={classNames(usernameError ? "text-red-500 font-semibold" : "hidden", " right-40")}>Invalid name</p>
+            <p className={classNames(registerError.usernameError ? "text-red-500 font-semibold" : "hidden", " right-40")}>Invalid name</p>
             <form action="" className="grid gap-5 grid-rows-3 grid-cols-2 items-center text-black">
               <div>
                 <p className="pb-2 font-semibold">First Name</p>
                 <div className="relative flex items-center">
                   <div className="absolute px-4 right-1">
-                    {nameError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
+                    {registerError.nameError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
                   </div>
-                  <input value={firstname} placeholder="First Name" onChange={(ev) => setFirstName(ev.target.value)}
+                  <input
+                    name="firstname"
+                    value={userInfo.firstname} 
+                    placeholder="First Name" 
+                    onChange={handleChange}
                     className={classNames(
-                      nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                      registerError.nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
                         'w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2'
                     )}
                   />
@@ -129,21 +172,25 @@ export default function Register() {
                 <p className="pb-2 font-semibold">Last Name</p>
                 <div className="relative flex items-center">
                   <div className="absolute px-4 right-1">
-                    {nameError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
+                    {registerError.nameError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
                   </div>
-                  <input value={lastname} placeholder="Last Name" onChange={(ev) => setLastName(ev.target.value)}
+                  <input
+                    name="lastname"
+                    value={userInfo.lastname} 
+                    placeholder="Last Name" 
+                    onChange={handleChange}
                     className={classNames(
-                      nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                      registerError.nameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
                         'w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2'
                     )}
                   />
                 </div>
               </div>
               <div className="col-span-2">
-                <Listbox value={title} onChange={setTitle}>
+                <Listbox value={userInfo.title} onChange={handleChange}>
                   <div className="relative mt-1">
                     <Listbox.Button className="border-black focus:ring-forest border w-full text-2xl rounded-lg py-3 px-3 focus:outline-none focus:ring-2">
-                      <span>{title.name}</span>
+                      <span>{userInfo.title}</span>
                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                         <FontAwesomeIcon icon={faCaretDown} style={{ color: "black" }} />
                       </span>
@@ -167,7 +214,7 @@ export default function Register() {
                           >
                             {({ selected }) => (
                               <>
-                                <span
+                                <span 
                                   className={`block truncate ${selected ? 'font-medium' : 'font-normal'
                                     }`}
                                 >
@@ -189,7 +236,7 @@ export default function Register() {
               </div>
               <div className="col-span-2">
                 <div className="flex relative">
-                  <p className={classNames(usernameError ? "text-red-500 font-semibold" : "hidden", " right-1 absolute")}>Username already exists</p>
+                  <p className={classNames(registerError.usernameError ? "text-red-500 font-semibold" : "hidden", " right-1 absolute")}>Username already exists</p>
                   <p className="pb-2 font-semibold">Username</p>
                 </div>
                 <div className="relative flex items-center">
@@ -197,11 +244,15 @@ export default function Register() {
                     <FontAwesomeIcon icon={faUser} style={{ color: "black" }} />
                   </div>
                   <div className="absolute px-4 right-1">
-                    {usernameError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
+                    {registerError.usernameError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
                   </div>
-                  <input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
+                  <input
+                    name="username"
+                    value={userInfo.username} 
+                    placeholder="Username" 
+                    onChange={handleChange}
                     className={classNames(
-                      usernameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                      registerError.usernameError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
                         'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
                     )}
                   />
@@ -209,7 +260,7 @@ export default function Register() {
               </div>
               <div className="col-span-2">
                 <div className="flex relative">
-                  <p className={classNames(usernameError ? "text-red-500 font-semibold" : "hidden", " right-1 absolute")}>Invalid password</p>
+                  <p className={classNames(registerError.passwordError ? "text-red-500 font-semibold" : "hidden", " right-1 absolute")}>Invalid password</p>
                   <p className="pb-2 font-semibold">Password</p>
                 </div>
                 <div className="relative flex items-center">
@@ -217,11 +268,15 @@ export default function Register() {
                     <FontAwesomeIcon icon={faLock} style={{ color: "black" }} />
                   </div>
                   <div className="absolute px-4 right-1">
-                    {passwordError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
+                    {registerError.passwordError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
                   </div>
-                  <input value={password} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)}
+                  <input
+                    name="password"
+                    value={userInfo.password} 
+                    placeholder="Password" 
+                    onChange={handleChange}
                     className={classNames(
-                      passwordError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                      registerError.passwordError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
                         'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
                     )}
                   />
@@ -234,11 +289,15 @@ export default function Register() {
                     <FontAwesomeIcon icon={faCamera} style={{ color: "black" }} />
                   </div>
                   <div className="absolute px-4 right-1">
-                    {pictureError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
+                    {registerError.pictureError && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
                   </div>
-                  <input value={picture} placeholder="Picture Link" onChange={(ev) => setPicture(ev.target.value)}
+                  <input 
+                    name="picture" 
+                    value={userInfo.picture}
+                    placeholder="Picture Link" 
+                    onChange={handleChange}
                     className={classNames(
-                      pictureError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
+                      registerError.pictureError ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border', 
                         'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
                     )}
                   />

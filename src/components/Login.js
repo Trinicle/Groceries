@@ -7,6 +7,10 @@ import classNames from 'classnames';
 export default function Login(props) {
 	const { setLoggedIn, setUser } = props
 
+	const [userInfo, setUserInfo] = useState({
+		username: "",
+		password: "",
+	})
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [showPass, setShowPass] = useState("password")
@@ -30,8 +34,10 @@ export default function Login(props) {
 		result = await result.json();
 		if (result.matched) {
 			setUser(username);
-			setUsername("");
-			setPassword("");
+			setUserInfo({
+				username: "",
+				password: "",
+			})
 			setLoggedIn(true);
 			setError(false)
 			navigate("/home");
@@ -44,8 +50,10 @@ export default function Login(props) {
 	const guestLogin = async (e) => {
 		e.preventDefault();
 		setGuest(true)
-		setUsername("");
-		setPassword("");
+		setUserInfo({
+			username: "",
+			password: "",
+		})
 		setLoggedIn(true);
 		setUser("");
 		setError(false)
@@ -55,6 +63,10 @@ export default function Login(props) {
 	const showPassword = () => {
 		showPass === "password" ? setShowPass("") : setShowPass("password")
 		show === "show" ? setShow("hide") : setShow("show")
+	}
+
+	const handleChange = (e) => {
+		setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
 	}
 
 	return (
@@ -80,7 +92,12 @@ export default function Login(props) {
 										<div className="absolute px-4 right-1">
 											{error && <FontAwesomeIcon icon={faCircleExclamation} style={{ color: "red" }} />}
 										</div>
-										<input value={username} placeholder="Username" onChange={(ev) => setUsername(ev.target.value)}
+										<input 
+											name="username"
+										  type="text"
+											value={userInfo.username} 
+											placeholder="Username" 
+											onChange={handleChange}
 											className={classNames(
 												error ? 'focus:ring-red-500 border-red-500 border-2' : 'border-black focus:ring-forest border',
 												'w-full text-2xl rounded-lg py-3 px-10 focus:outline-none focus:ring-2'
@@ -96,12 +113,23 @@ export default function Login(props) {
 										<div className="absolute right-1">
 											<input type="button" className="font-semibold rounded-full hover:bg-forest hover:bg-opacity-50 px-2 py-1" onClick={showPassword} value={show} />
 										</div>
-										<input type={showPass} value={password} placeholder="Password" onChange={(ev) => setPassword(ev.target.value)}
+										<input 
+											name="password"
+											type={showPass} 
+											value={userInfo.password} 
+											placeholder="Password" 
+											onChange={handleChange}
 											className='border w-full text-2xl rounded-lg py-3 px-10 border-black focus:outline-none focus:ring-2 focus:ring-forest'
 										/>
 									</div>
 								</div>
-								<input className='rounded-full border-2 border-black bg-forest text-white w-full text-xl p-4 font-semibold' type="button" onClick={login} value={'Sign in'} />
+								<input 
+									name="login"
+									className='rounded-full border-2 border-black bg-forest text-white w-full text-xl p-4 font-semibold' 
+									type="button"
+									onClick={login} 
+									value={'Sign in'}
+								/>
 								<div className="flex items-center text-lg">
 									<div className="flex-1 border-t-2 border-gray-200"></div>
 									<span className="px-3 text-gray-500">or</span>

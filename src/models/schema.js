@@ -1,7 +1,7 @@
 export const schema = {
     "models": {
-        "Ingredient": {
-            "name": "Ingredient",
+        "Ingredients": {
+            "name": "Ingredients",
             "fields": {
                 "id": {
                     "name": "id",
@@ -10,18 +10,11 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Name": {
-                    "name": "Name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "recipes": {
                     "name": "recipes",
                     "isArray": true,
                     "type": {
-                        "model": "RecipeIngredient"
+                        "model": "RecipeIngredients"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -29,9 +22,16 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "ingredient"
+                            "ingredients"
                         ]
                     }
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -85,24 +85,17 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Name": {
-                    "name": "Name",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "Picture": {
-                    "name": "Picture",
+                "description": {
+                    "name": "description",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "Timestamp": {
-                    "name": "Timestamp",
-                    "isArray": false,
-                    "type": "AWSTimestamp",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -117,7 +110,23 @@ export const schema = {
                     "name": "Ingredients",
                     "isArray": true,
                     "type": {
-                        "model": "RecipeIngredient"
+                        "model": "RecipeIngredients"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "recipe"
+                        ]
+                    }
+                },
+                "user": {
+                    "name": "user",
+                    "isArray": true,
+                    "type": {
+                        "model": "RecipeUser"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -190,8 +199,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Name": {
-                    "name": "Name",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -213,8 +222,8 @@ export const schema = {
                         ]
                     }
                 },
-                "Checked": {
-                    "name": "Checked",
+                "checked": {
+                    "name": "checked",
                     "isArray": false,
                     "type": "Boolean",
                     "isRequired": false,
@@ -272,15 +281,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Username": {
-                    "name": "Username",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "Name": {
-                    "name": "Name",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -302,8 +304,8 @@ export const schema = {
                         ]
                     }
                 },
-                "usersID": {
-                    "name": "usersID",
+                "userID": {
+                    "name": "userID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
@@ -338,7 +340,7 @@ export const schema = {
                     "properties": {
                         "name": "byUser",
                         "fields": [
-                            "usersID"
+                            "userID"
                         ]
                     }
                 },
@@ -370,50 +372,43 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Username": {
-                    "name": "Username",
+                "username": {
+                    "name": "username",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "HashedPassword": {
-                    "name": "HashedPassword",
+                "hashedpassword": {
+                    "name": "hashedpassword",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "FirstName": {
-                    "name": "FirstName",
+                "firstname": {
+                    "name": "firstname",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "LastName": {
-                    "name": "LastName",
+                "lastname": {
+                    "name": "lastname",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "Favorites": {
-                    "name": "Favorites",
+                "picture": {
+                    "name": "picture",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "Picture": {
-                    "name": "Picture",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "Title": {
-                    "name": "Title",
+                "title": {
+                    "name": "title",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -431,7 +426,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "usersID"
+                            "userID"
                         ]
                     }
                 },
@@ -448,6 +443,22 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
                             "userID"
+                        ]
+                    }
+                },
+                "Favorites": {
+                    "name": "Favorites",
+                    "isArray": true,
+                    "type": {
+                        "model": "RecipeUser"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "user"
                         ]
                     }
                 },
@@ -493,8 +504,8 @@ export const schema = {
                 }
             ]
         },
-        "RecipeIngredient": {
-            "name": "RecipeIngredient",
+        "RecipeIngredients": {
+            "name": "RecipeIngredients",
             "fields": {
                 "id": {
                     "name": "id",
@@ -503,8 +514,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "ingredientId": {
-                    "name": "ingredientId",
+                "ingredientsId": {
+                    "name": "ingredientsId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -517,18 +528,18 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "ingredient": {
-                    "name": "ingredient",
+                "ingredients": {
+                    "name": "ingredients",
                     "isArray": false,
                     "type": {
-                        "model": "Ingredient"
+                        "model": "Ingredients"
                     },
                     "isRequired": true,
                     "attributes": [],
                     "association": {
                         "connectionType": "BELONGS_TO",
                         "targetNames": [
-                            "ingredientId"
+                            "ingredientsId"
                         ]
                     }
                 },
@@ -574,9 +585,9 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byIngredient",
+                        "name": "byIngredients",
                         "fields": [
-                            "ingredientId"
+                            "ingredientsId"
                         ]
                     }
                 },
@@ -586,6 +597,104 @@ export const schema = {
                         "name": "byRecipe",
                         "fields": [
                             "recipeId"
+                        ]
+                    }
+                }
+            ]
+        },
+        "RecipeUser": {
+            "name": "RecipeUser",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "recipeId": {
+                    "name": "recipeId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "userId": {
+                    "name": "userId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "recipe": {
+                    "name": "recipe",
+                    "isArray": false,
+                    "type": {
+                        "model": "Recipe"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "recipeId"
+                        ]
+                    }
+                },
+                "user": {
+                    "name": "user",
+                    "isArray": false,
+                    "type": {
+                        "model": "User"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "userId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "RecipeUsers",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byRecipe",
+                        "fields": [
+                            "recipeId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "userId"
                         ]
                     }
                 }
@@ -693,5 +802,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "04020869480c8c97bf61e3de80d16343"
+    "version": "f07739641c2cae5404fdd465786628cb"
 };

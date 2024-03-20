@@ -6,34 +6,34 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@a
 
 
 
-type EagerIngredient = {
+type EagerIngredients = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Ingredient, 'id'>;
+    identifier: ManagedIdentifier<Ingredients, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Name?: string | null;
-  readonly recipes?: (RecipeIngredient | null)[] | null;
+  readonly recipes?: (RecipeIngredients | null)[] | null;
+  readonly name?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyIngredient = {
+type LazyIngredients = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Ingredient, 'id'>;
+    identifier: ManagedIdentifier<Ingredients, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Name?: string | null;
-  readonly recipes: AsyncCollection<RecipeIngredient>;
+  readonly recipes: AsyncCollection<RecipeIngredients>;
+  readonly name?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type Ingredient = LazyLoading extends LazyLoadingDisabled ? EagerIngredient : LazyIngredient
+export declare type Ingredients = LazyLoading extends LazyLoadingDisabled ? EagerIngredients : LazyIngredients
 
-export declare const Ingredient: (new (init: ModelInit<Ingredient>) => Ingredient) & {
-  copyOf(source: Ingredient, mutator: (draft: MutableModel<Ingredient>) => MutableModel<Ingredient> | void): Ingredient;
+export declare const Ingredients: (new (init: ModelInit<Ingredients>) => Ingredients) & {
+  copyOf(source: Ingredients, mutator: (draft: MutableModel<Ingredients>) => MutableModel<Ingredients> | void): Ingredients;
 }
 
 type EagerRecipe = {
@@ -42,11 +42,11 @@ type EagerRecipe = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Name?: string | null;
-  readonly Picture?: string | null;
-  readonly Timestamp?: number | null;
+  readonly name?: string | null;
+  readonly description?: string | null;
   readonly userID: string;
-  readonly Ingredients?: (RecipeIngredient | null)[] | null;
+  readonly Ingredients?: (RecipeIngredients | null)[] | null;
+  readonly user?: (RecipeUser | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -57,11 +57,11 @@ type LazyRecipe = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Name?: string | null;
-  readonly Picture?: string | null;
-  readonly Timestamp?: number | null;
+  readonly name?: string | null;
+  readonly description?: string | null;
   readonly userID: string;
-  readonly Ingredients: AsyncCollection<RecipeIngredient>;
+  readonly Ingredients: AsyncCollection<RecipeIngredients>;
+  readonly user: AsyncCollection<RecipeUser>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -78,9 +78,9 @@ type EagerGrocery = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Name?: string | null;
+  readonly name?: string | null;
   readonly lists?: (ListGrocery | null)[] | null;
-  readonly Checked?: boolean | null;
+  readonly checked?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -91,9 +91,9 @@ type LazyGrocery = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Name?: string | null;
+  readonly name?: string | null;
   readonly lists: AsyncCollection<ListGrocery>;
-  readonly Checked?: boolean | null;
+  readonly checked?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -110,10 +110,9 @@ type EagerList = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Username?: string | null;
-  readonly Name?: string | null;
+  readonly name?: string | null;
   readonly Groceries?: (ListGrocery | null)[] | null;
-  readonly usersID: string;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -124,10 +123,9 @@ type LazyList = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Username?: string | null;
-  readonly Name?: string | null;
+  readonly name?: string | null;
   readonly Groceries: AsyncCollection<ListGrocery>;
-  readonly usersID: string;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -144,15 +142,15 @@ type EagerUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Username?: string | null;
-  readonly HashedPassword?: string | null;
-  readonly FirstName?: string | null;
-  readonly LastName?: string | null;
-  readonly Favorites?: string | null;
-  readonly Picture?: string | null;
-  readonly Title?: string | null;
+  readonly username?: string | null;
+  readonly hashedpassword?: string | null;
+  readonly firstname?: string | null;
+  readonly lastname?: string | null;
+  readonly picture?: string | null;
+  readonly title?: string | null;
   readonly Lists?: (List | null)[] | null;
   readonly Recipes?: (Recipe | null)[] | null;
+  readonly Favorites?: (RecipeUser | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -163,15 +161,15 @@ type LazyUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Username?: string | null;
-  readonly HashedPassword?: string | null;
-  readonly FirstName?: string | null;
-  readonly LastName?: string | null;
-  readonly Favorites?: string | null;
-  readonly Picture?: string | null;
-  readonly Title?: string | null;
+  readonly username?: string | null;
+  readonly hashedpassword?: string | null;
+  readonly firstname?: string | null;
+  readonly lastname?: string | null;
+  readonly picture?: string | null;
+  readonly title?: string | null;
   readonly Lists: AsyncCollection<List>;
   readonly Recipes: AsyncCollection<Recipe>;
+  readonly Favorites: AsyncCollection<RecipeUser>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -182,38 +180,72 @@ export declare const User: (new (init: ModelInit<User>) => User) & {
   copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }
 
-type EagerRecipeIngredient = {
+type EagerRecipeIngredients = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<RecipeIngredient, 'id'>;
+    identifier: ManagedIdentifier<RecipeIngredients, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly ingredientId?: string | null;
+  readonly ingredientsId?: string | null;
   readonly recipeId?: string | null;
-  readonly ingredient: Ingredient;
+  readonly ingredients: Ingredients;
   readonly recipe: Recipe;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyRecipeIngredient = {
+type LazyRecipeIngredients = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<RecipeIngredient, 'id'>;
+    identifier: ManagedIdentifier<RecipeIngredients, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly ingredientId?: string | null;
+  readonly ingredientsId?: string | null;
   readonly recipeId?: string | null;
-  readonly ingredient: AsyncItem<Ingredient>;
+  readonly ingredients: AsyncItem<Ingredients>;
   readonly recipe: AsyncItem<Recipe>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type RecipeIngredient = LazyLoading extends LazyLoadingDisabled ? EagerRecipeIngredient : LazyRecipeIngredient
+export declare type RecipeIngredients = LazyLoading extends LazyLoadingDisabled ? EagerRecipeIngredients : LazyRecipeIngredients
 
-export declare const RecipeIngredient: (new (init: ModelInit<RecipeIngredient>) => RecipeIngredient) & {
-  copyOf(source: RecipeIngredient, mutator: (draft: MutableModel<RecipeIngredient>) => MutableModel<RecipeIngredient> | void): RecipeIngredient;
+export declare const RecipeIngredients: (new (init: ModelInit<RecipeIngredients>) => RecipeIngredients) & {
+  copyOf(source: RecipeIngredients, mutator: (draft: MutableModel<RecipeIngredients>) => MutableModel<RecipeIngredients> | void): RecipeIngredients;
+}
+
+type EagerRecipeUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<RecipeUser, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly recipeId?: string | null;
+  readonly userId?: string | null;
+  readonly recipe: Recipe;
+  readonly user: User;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyRecipeUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<RecipeUser, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly recipeId?: string | null;
+  readonly userId?: string | null;
+  readonly recipe: AsyncItem<Recipe>;
+  readonly user: AsyncItem<User>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type RecipeUser = LazyLoading extends LazyLoadingDisabled ? EagerRecipeUser : LazyRecipeUser
+
+export declare const RecipeUser: (new (init: ModelInit<RecipeUser>) => RecipeUser) & {
+  copyOf(source: RecipeUser, mutator: (draft: MutableModel<RecipeUser>) => MutableModel<RecipeUser> | void): RecipeUser;
 }
 
 type EagerListGrocery = {
