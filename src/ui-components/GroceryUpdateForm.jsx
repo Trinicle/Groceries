@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getGrocery } from "../graphql/queries";
@@ -32,17 +26,14 @@ export default function GroceryUpdateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    checked: false,
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [checked, setChecked] = React.useState(initialValues.checked);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = groceryRecord
       ? { ...initialValues, ...groceryRecord }
       : initialValues;
     setName(cleanValues.name);
-    setChecked(cleanValues.checked);
     setErrors({});
   };
   const [groceryRecord, setGroceryRecord] = React.useState(groceryModelProp);
@@ -63,7 +54,6 @@ export default function GroceryUpdateForm(props) {
   React.useEffect(resetStateValues, [groceryRecord]);
   const validations = {
     name: [],
-    checked: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -92,7 +82,6 @@ export default function GroceryUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name: name ?? null,
-          checked: checked ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -154,7 +143,6 @@ export default function GroceryUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              checked,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -169,31 +157,6 @@ export default function GroceryUpdateForm(props) {
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
       ></TextField>
-      <SwitchField
-        label="Checked"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={checked}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              name,
-              checked: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.checked ?? value;
-          }
-          if (errors.checked?.hasError) {
-            runValidationTasks("checked", value);
-          }
-          setChecked(value);
-        }}
-        onBlur={() => runValidationTasks("checked", checked)}
-        errorMessage={errors.checked?.errorMessage}
-        hasError={errors.checked?.hasError}
-        {...getOverrideProps(overrides, "checked")}
-      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

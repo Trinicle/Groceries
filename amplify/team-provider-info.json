@@ -16,5 +16,23 @@
         "groceries": {}
       }
     }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-groceries-dev-192905-authRole",
+      "UnauthRoleArn": "arn:aws:iam::339712967067:role/amplify-groceries-dev-192905-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::339712967067:role/amplify-groceries-dev-192905-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-groceries-dev-192905-deployment",
+      "UnauthRoleName": "amplify-groceries-dev-192905-unauthRole",
+      "StackName": "amplify-groceries-dev-192905",
+      "StackId": "arn:aws:cloudformation:us-east-2:339712967067:stack/amplify-groceries-dev-192905/7b40eb70-e648-11ee-9a98-06db9e758b9b",
+      "AmplifyAppId": "d2ydxw47yjdsrg"
+    },
+    "categories": {
+      "api": {
+        "groceries": {}
+      }
+    }
   }
 }

@@ -19,7 +19,7 @@ export const onCreateIngredients = /* GraphQL */ `
         nextToken
         __typename
       }
-      Name
+      name
       createdAt
       updatedAt
       __typename
@@ -44,7 +44,7 @@ export const onUpdateIngredients = /* GraphQL */ `
         nextToken
         __typename
       }
-      Name
+      name
       createdAt
       updatedAt
       __typename
@@ -69,7 +69,7 @@ export const onDeleteIngredients = /* GraphQL */ `
         nextToken
         __typename
       }
-      Name
+      name
       createdAt
       updatedAt
       __typename
@@ -80,14 +80,26 @@ export const onCreateRecipe = /* GraphQL */ `
   subscription OnCreateRecipe($filter: ModelSubscriptionRecipeFilterInput) {
     onCreateRecipe(filter: $filter) {
       id
-      Name
-      Description
-      usersID
+      name
+      description
+      userID
       Ingredients {
         items {
           id
           ingredientsId
           recipeId
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      users {
+        items {
+          id
+          recipeId
+          userId
           createdAt
           updatedAt
           __typename
@@ -105,14 +117,26 @@ export const onUpdateRecipe = /* GraphQL */ `
   subscription OnUpdateRecipe($filter: ModelSubscriptionRecipeFilterInput) {
     onUpdateRecipe(filter: $filter) {
       id
-      Name
-      Description
-      usersID
+      name
+      description
+      userID
       Ingredients {
         items {
           id
           ingredientsId
           recipeId
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      users {
+        items {
+          id
+          recipeId
+          userId
           createdAt
           updatedAt
           __typename
@@ -130,14 +154,26 @@ export const onDeleteRecipe = /* GraphQL */ `
   subscription OnDeleteRecipe($filter: ModelSubscriptionRecipeFilterInput) {
     onDeleteRecipe(filter: $filter) {
       id
-      Name
-      Description
-      usersID
+      name
+      description
+      userID
       Ingredients {
         items {
           id
           ingredientsId
           recipeId
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      users {
+        items {
+          id
+          recipeId
+          userId
           createdAt
           updatedAt
           __typename
@@ -155,7 +191,7 @@ export const onCreateGrocery = /* GraphQL */ `
   subscription OnCreateGrocery($filter: ModelSubscriptionGroceryFilterInput) {
     onCreateGrocery(filter: $filter) {
       id
-      Nam
+      name
       lists {
         items {
           id
@@ -168,7 +204,6 @@ export const onCreateGrocery = /* GraphQL */ `
         nextToken
         __typename
       }
-      Checked
       createdAt
       updatedAt
       __typename
@@ -179,7 +214,7 @@ export const onUpdateGrocery = /* GraphQL */ `
   subscription OnUpdateGrocery($filter: ModelSubscriptionGroceryFilterInput) {
     onUpdateGrocery(filter: $filter) {
       id
-      Nam
+      name
       lists {
         items {
           id
@@ -192,7 +227,6 @@ export const onUpdateGrocery = /* GraphQL */ `
         nextToken
         __typename
       }
-      Checked
       createdAt
       updatedAt
       __typename
@@ -203,7 +237,7 @@ export const onDeleteGrocery = /* GraphQL */ `
   subscription OnDeleteGrocery($filter: ModelSubscriptionGroceryFilterInput) {
     onDeleteGrocery(filter: $filter) {
       id
-      Nam
+      name
       lists {
         items {
           id
@@ -216,7 +250,6 @@ export const onDeleteGrocery = /* GraphQL */ `
         nextToken
         __typename
       }
-      Checked
       createdAt
       updatedAt
       __typename
@@ -227,8 +260,7 @@ export const onCreateList = /* GraphQL */ `
   subscription OnCreateList($filter: ModelSubscriptionListFilterInput) {
     onCreateList(filter: $filter) {
       id
-      Username
-      Name
+      name
       Groceries {
         items {
           id
@@ -241,7 +273,7 @@ export const onCreateList = /* GraphQL */ `
         nextToken
         __typename
       }
-      usersID
+      userID
       createdAt
       updatedAt
       __typename
@@ -252,8 +284,7 @@ export const onUpdateList = /* GraphQL */ `
   subscription OnUpdateList($filter: ModelSubscriptionListFilterInput) {
     onUpdateList(filter: $filter) {
       id
-      Username
-      Name
+      name
       Groceries {
         items {
           id
@@ -266,7 +297,7 @@ export const onUpdateList = /* GraphQL */ `
         nextToken
         __typename
       }
-      usersID
+      userID
       createdAt
       updatedAt
       __typename
@@ -277,8 +308,7 @@ export const onDeleteList = /* GraphQL */ `
   subscription OnDeleteList($filter: ModelSubscriptionListFilterInput) {
     onDeleteList(filter: $filter) {
       id
-      Username
-      Name
+      name
       Groceries {
         items {
           id
@@ -291,30 +321,28 @@ export const onDeleteList = /* GraphQL */ `
         nextToken
         __typename
       }
-      usersID
+      userID
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onCreateUsers = /* GraphQL */ `
-  subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onCreateUsers(filter: $filter) {
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
+    onCreateUser(filter: $filter) {
       id
-      Username
-      HashedPassword
-      FirstName
-      LastName
-      Favorites
-      Picture
-      Title
+      username
+      hashedpassword
+      firstname
+      lastname
+      picture
+      title
       Lists {
         items {
           id
-          Username
-          Name
-          usersID
+          name
+          userID
           createdAt
           updatedAt
           __typename
@@ -325,9 +353,9 @@ export const onCreateUsers = /* GraphQL */ `
       Recipes {
         items {
           id
-          Name
-          Description
-          usersID
+          name
+          description
+          userID
           createdAt
           updatedAt
           __typename
@@ -335,42 +363,11 @@ export const onCreateUsers = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateUsers = /* GraphQL */ `
-  subscription OnUpdateUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onUpdateUsers(filter: $filter) {
-      id
-      Username
-      HashedPassword
-      FirstName
-      LastName
-      Favorites
-      Picture
-      Title
-      Lists {
+      Favorites {
         items {
           id
-          Username
-          Name
-          usersID
-          createdAt
-          updatedAt
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      Recipes {
-        items {
-          id
-          Name
-          Description
-          usersID
+          recipeId
+          userId
           createdAt
           updatedAt
           __typename
@@ -384,23 +381,21 @@ export const onUpdateUsers = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUsers = /* GraphQL */ `
-  subscription OnDeleteUsers($filter: ModelSubscriptionUsersFilterInput) {
-    onDeleteUsers(filter: $filter) {
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
+    onUpdateUser(filter: $filter) {
       id
-      Username
-      HashedPassword
-      FirstName
-      LastName
-      Favorites
-      Picture
-      Title
+      username
+      hashedpassword
+      firstname
+      lastname
+      picture
+      title
       Lists {
         items {
           id
-          Username
-          Name
-          usersID
+          name
+          userID
           createdAt
           updatedAt
           __typename
@@ -411,9 +406,74 @@ export const onDeleteUsers = /* GraphQL */ `
       Recipes {
         items {
           id
-          Name
-          Description
-          usersID
+          name
+          description
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Favorites {
+        items {
+          id
+          recipeId
+          userId
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
+    onDeleteUser(filter: $filter) {
+      id
+      username
+      hashedpassword
+      firstname
+      lastname
+      picture
+      title
+      Lists {
+        items {
+          id
+          name
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Recipes {
+        items {
+          id
+          name
+          description
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Favorites {
+        items {
+          id
+          recipeId
+          userId
           createdAt
           updatedAt
           __typename
@@ -441,17 +501,21 @@ export const onCreateRecipeIngredients = /* GraphQL */ `
           nextToken
           __typename
         }
-        Name
+        name
         createdAt
         updatedAt
         __typename
       }
       recipe {
         id
-        Name
-        Description
-        usersID
+        name
+        description
+        userID
         Ingredients {
+          nextToken
+          __typename
+        }
+        users {
           nextToken
           __typename
         }
@@ -479,17 +543,21 @@ export const onUpdateRecipeIngredients = /* GraphQL */ `
           nextToken
           __typename
         }
-        Name
+        name
         createdAt
         updatedAt
         __typename
       }
       recipe {
         id
-        Name
-        Description
-        usersID
+        name
+        description
+        userID
         Ingredients {
+          nextToken
+          __typename
+        }
+        users {
           nextToken
           __typename
         }
@@ -517,17 +585,186 @@ export const onDeleteRecipeIngredients = /* GraphQL */ `
           nextToken
           __typename
         }
-        Name
+        name
         createdAt
         updatedAt
         __typename
       }
       recipe {
         id
-        Name
-        Description
-        usersID
+        name
+        description
+        userID
         Ingredients {
+          nextToken
+          __typename
+        }
+        users {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateRecipeUser = /* GraphQL */ `
+  subscription OnCreateRecipeUser(
+    $filter: ModelSubscriptionRecipeUserFilterInput
+  ) {
+    onCreateRecipeUser(filter: $filter) {
+      id
+      recipeId
+      userId
+      recipe {
+        id
+        name
+        description
+        userID
+        Ingredients {
+          nextToken
+          __typename
+        }
+        users {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        username
+        hashedpassword
+        firstname
+        lastname
+        picture
+        title
+        Lists {
+          nextToken
+          __typename
+        }
+        Recipes {
+          nextToken
+          __typename
+        }
+        Favorites {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateRecipeUser = /* GraphQL */ `
+  subscription OnUpdateRecipeUser(
+    $filter: ModelSubscriptionRecipeUserFilterInput
+  ) {
+    onUpdateRecipeUser(filter: $filter) {
+      id
+      recipeId
+      userId
+      recipe {
+        id
+        name
+        description
+        userID
+        Ingredients {
+          nextToken
+          __typename
+        }
+        users {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        username
+        hashedpassword
+        firstname
+        lastname
+        picture
+        title
+        Lists {
+          nextToken
+          __typename
+        }
+        Recipes {
+          nextToken
+          __typename
+        }
+        Favorites {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteRecipeUser = /* GraphQL */ `
+  subscription OnDeleteRecipeUser(
+    $filter: ModelSubscriptionRecipeUserFilterInput
+  ) {
+    onDeleteRecipeUser(filter: $filter) {
+      id
+      recipeId
+      userId
+      recipe {
+        id
+        name
+        description
+        userID
+        Ingredients {
+          nextToken
+          __typename
+        }
+        users {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        username
+        hashedpassword
+        firstname
+        lastname
+        picture
+        title
+        Lists {
+          nextToken
+          __typename
+        }
+        Recipes {
+          nextToken
+          __typename
+        }
+        Favorites {
           nextToken
           __typename
         }
@@ -551,25 +788,23 @@ export const onCreateListGrocery = /* GraphQL */ `
       listId
       grocery {
         id
-        Nam
+        name
         lists {
           nextToken
           __typename
         }
-        Checked
         createdAt
         updatedAt
         __typename
       }
       list {
         id
-        Username
-        Name
+        name
         Groceries {
           nextToken
           __typename
         }
-        usersID
+        userID
         createdAt
         updatedAt
         __typename
@@ -590,25 +825,23 @@ export const onUpdateListGrocery = /* GraphQL */ `
       listId
       grocery {
         id
-        Nam
+        name
         lists {
           nextToken
           __typename
         }
-        Checked
         createdAt
         updatedAt
         __typename
       }
       list {
         id
-        Username
-        Name
+        name
         Groceries {
           nextToken
           __typename
         }
-        usersID
+        userID
         createdAt
         updatedAt
         __typename
@@ -629,25 +862,23 @@ export const onDeleteListGrocery = /* GraphQL */ `
       listId
       grocery {
         id
-        Nam
+        name
         lists {
           nextToken
           __typename
         }
-        Checked
         createdAt
         updatedAt
         __typename
       }
       list {
         id
-        Username
-        Name
+        name
         Groceries {
           nextToken
           __typename
         }
-        usersID
+        userID
         createdAt
         updatedAt
         __typename

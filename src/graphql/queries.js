@@ -17,7 +17,7 @@ export const getIngredients = /* GraphQL */ `
         nextToken
         __typename
       }
-      Name
+      name
       createdAt
       updatedAt
       __typename
@@ -37,7 +37,7 @@ export const listIngredients = /* GraphQL */ `
           nextToken
           __typename
         }
-        Name
+        name
         createdAt
         updatedAt
         __typename
@@ -51,14 +51,26 @@ export const getRecipe = /* GraphQL */ `
   query GetRecipe($id: ID!) {
     getRecipe(id: $id) {
       id
-      Name
-      Description
-      usersID
+      name
+      description
+      userID
       Ingredients {
         items {
           id
           ingredientsId
           recipeId
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      users {
+        items {
+          id
+          recipeId
+          userId
           createdAt
           updatedAt
           __typename
@@ -81,10 +93,14 @@ export const listRecipes = /* GraphQL */ `
     listRecipes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        Name
-        Description
-        usersID
+        name
+        description
+        userID
         Ingredients {
+          nextToken
+          __typename
+        }
+        users {
           nextToken
           __typename
         }
@@ -97,16 +113,16 @@ export const listRecipes = /* GraphQL */ `
     }
   }
 `;
-export const recipesByUsersID = /* GraphQL */ `
-  query RecipesByUsersID(
-    $usersID: ID!
+export const recipesByUserID = /* GraphQL */ `
+  query RecipesByUserID(
+    $userID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelRecipeFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    recipesByUsersID(
-      usersID: $usersID
+    recipesByUserID(
+      userID: $userID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -114,10 +130,14 @@ export const recipesByUsersID = /* GraphQL */ `
     ) {
       items {
         id
-        Name
-        Description
-        usersID
+        name
+        description
+        userID
         Ingredients {
+          nextToken
+          __typename
+        }
+        users {
           nextToken
           __typename
         }
@@ -134,7 +154,7 @@ export const getGrocery = /* GraphQL */ `
   query GetGrocery($id: ID!) {
     getGrocery(id: $id) {
       id
-      Nam
+      name
       lists {
         items {
           id
@@ -147,7 +167,6 @@ export const getGrocery = /* GraphQL */ `
         nextToken
         __typename
       }
-      Checked
       createdAt
       updatedAt
       __typename
@@ -163,12 +182,11 @@ export const listGroceries = /* GraphQL */ `
     listGroceries(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        Nam
+        name
         lists {
           nextToken
           __typename
         }
-        Checked
         createdAt
         updatedAt
         __typename
@@ -182,8 +200,7 @@ export const getList = /* GraphQL */ `
   query GetList($id: ID!) {
     getList(id: $id) {
       id
-      Username
-      Name
+      name
       Groceries {
         items {
           id
@@ -196,7 +213,7 @@ export const getList = /* GraphQL */ `
         nextToken
         __typename
       }
-      usersID
+      userID
       createdAt
       updatedAt
       __typename
@@ -212,13 +229,12 @@ export const listLists = /* GraphQL */ `
     listLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        Username
-        Name
+        name
         Groceries {
           nextToken
           __typename
         }
-        usersID
+        userID
         createdAt
         updatedAt
         __typename
@@ -228,16 +244,16 @@ export const listLists = /* GraphQL */ `
     }
   }
 `;
-export const listsByUsersID = /* GraphQL */ `
-  query ListsByUsersID(
-    $usersID: ID!
+export const listsByUserID = /* GraphQL */ `
+  query ListsByUserID(
+    $userID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelListFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listsByUsersID(
-      usersID: $usersID
+    listsByUserID(
+      userID: $userID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -245,13 +261,12 @@ export const listsByUsersID = /* GraphQL */ `
     ) {
       items {
         id
-        Username
-        Name
+        name
         Groceries {
           nextToken
           __typename
         }
-        usersID
+        userID
         createdAt
         updatedAt
         __typename
@@ -261,23 +276,21 @@ export const listsByUsersID = /* GraphQL */ `
     }
   }
 `;
-export const getUsers = /* GraphQL */ `
-  query GetUsers($id: ID!) {
-    getUsers(id: $id) {
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
       id
-      Username
-      HashedPassword
-      FirstName
-      LastName
-      Favorites
-      Picture
-      Title
+      username
+      hashedpassword
+      firstname
+      lastname
+      picture
+      title
       Lists {
         items {
           id
-          Username
-          Name
-          usersID
+          name
+          userID
           createdAt
           updatedAt
           __typename
@@ -288,9 +301,21 @@ export const getUsers = /* GraphQL */ `
       Recipes {
         items {
           id
-          Name
-          Description
-          usersID
+          name
+          description
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Favorites {
+        items {
+          id
+          recipeId
+          userId
           createdAt
           updatedAt
           __typename
@@ -306,25 +331,28 @@ export const getUsers = /* GraphQL */ `
 `;
 export const listUsers = /* GraphQL */ `
   query ListUsers(
-    $filter: ModelUsersFilterInput
+    $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        Username
-        HashedPassword
-        FirstName
-        LastName
-        Favorites
-        Picture
-        Title
+        username
+        hashedpassword
+        firstname
+        lastname
+        picture
+        title
         Lists {
           nextToken
           __typename
         }
         Recipes {
+          nextToken
+          __typename
+        }
+        Favorites {
           nextToken
           __typename
         }
@@ -349,17 +377,21 @@ export const getRecipeIngredients = /* GraphQL */ `
           nextToken
           __typename
         }
-        Name
+        name
         createdAt
         updatedAt
         __typename
       }
       recipe {
         id
-        Name
-        Description
-        usersID
+        name
+        description
+        userID
         Ingredients {
+          nextToken
+          __typename
+        }
+        users {
           nextToken
           __typename
         }
@@ -390,16 +422,16 @@ export const listRecipeIngredients = /* GraphQL */ `
         recipeId
         ingredients {
           id
-          Name
+          name
           createdAt
           updatedAt
           __typename
         }
         recipe {
           id
-          Name
-          Description
-          usersID
+          name
+          description
+          userID
           createdAt
           updatedAt
           __typename
@@ -434,16 +466,16 @@ export const recipeIngredientsByIngredientsId = /* GraphQL */ `
         recipeId
         ingredients {
           id
-          Name
+          name
           createdAt
           updatedAt
           __typename
         }
         recipe {
           id
-          Name
-          Description
-          usersID
+          name
+          description
+          userID
           createdAt
           updatedAt
           __typename
@@ -478,16 +510,208 @@ export const recipeIngredientsByRecipeId = /* GraphQL */ `
         recipeId
         ingredients {
           id
-          Name
+          name
           createdAt
           updatedAt
           __typename
         }
         recipe {
           id
-          Name
-          Description
-          usersID
+          name
+          description
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRecipeUser = /* GraphQL */ `
+  query GetRecipeUser($id: ID!) {
+    getRecipeUser(id: $id) {
+      id
+      recipeId
+      userId
+      recipe {
+        id
+        name
+        description
+        userID
+        Ingredients {
+          nextToken
+          __typename
+        }
+        users {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        username
+        hashedpassword
+        firstname
+        lastname
+        picture
+        title
+        Lists {
+          nextToken
+          __typename
+        }
+        Recipes {
+          nextToken
+          __typename
+        }
+        Favorites {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listRecipeUsers = /* GraphQL */ `
+  query ListRecipeUsers(
+    $filter: ModelRecipeUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRecipeUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        recipeId
+        userId
+        recipe {
+          id
+          name
+          description
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        user {
+          id
+          username
+          hashedpassword
+          firstname
+          lastname
+          picture
+          title
+          createdAt
+          updatedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const recipeUsersByRecipeId = /* GraphQL */ `
+  query RecipeUsersByRecipeId(
+    $recipeId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRecipeUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    recipeUsersByRecipeId(
+      recipeId: $recipeId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        recipeId
+        userId
+        recipe {
+          id
+          name
+          description
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        user {
+          id
+          username
+          hashedpassword
+          firstname
+          lastname
+          picture
+          title
+          createdAt
+          updatedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const recipeUsersByUserId = /* GraphQL */ `
+  query RecipeUsersByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRecipeUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    recipeUsersByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        recipeId
+        userId
+        recipe {
+          id
+          name
+          description
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        user {
+          id
+          username
+          hashedpassword
+          firstname
+          lastname
+          picture
+          title
           createdAt
           updatedAt
           __typename
@@ -509,25 +733,23 @@ export const getListGrocery = /* GraphQL */ `
       listId
       grocery {
         id
-        Nam
+        name
         lists {
           nextToken
           __typename
         }
-        Checked
         createdAt
         updatedAt
         __typename
       }
       list {
         id
-        Username
-        Name
+        name
         Groceries {
           nextToken
           __typename
         }
-        usersID
+        userID
         createdAt
         updatedAt
         __typename
@@ -551,17 +773,15 @@ export const listListGroceries = /* GraphQL */ `
         listId
         grocery {
           id
-          Nam
-          Checked
+          name
           createdAt
           updatedAt
           __typename
         }
         list {
           id
-          Username
-          Name
-          usersID
+          name
+          userID
           createdAt
           updatedAt
           __typename
@@ -596,17 +816,15 @@ export const listGroceriesByGroceryId = /* GraphQL */ `
         listId
         grocery {
           id
-          Nam
-          Checked
+          name
           createdAt
           updatedAt
           __typename
         }
         list {
           id
-          Username
-          Name
-          usersID
+          name
+          userID
           createdAt
           updatedAt
           __typename
@@ -641,17 +859,15 @@ export const listGroceriesByListId = /* GraphQL */ `
         listId
         grocery {
           id
-          Nam
-          Checked
+          name
           createdAt
           updatedAt
           __typename
         }
         list {
           id
-          Username
-          Name
-          usersID
+          name
+          userID
           createdAt
           updatedAt
           __typename

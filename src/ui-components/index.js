@@ -8,6 +8,6 @@ export { default as GroceryCreateForm } from "./GroceryCreateForm";
 export { default as GroceryUpdateForm } from "./GroceryUpdateForm";
 export { default as IngredientsCreateForm } from "./IngredientsCreateForm";
 export { default as IngredientsUpdateForm } from "./IngredientsUpdateForm";
-export { default as UsersCreateForm } from "./UsersCreateForm";
-export { default as UsersUpdateForm } from "./UsersUpdateForm";
+export { default as UserCreateForm } from "./UserCreateForm";
+export { default as UserUpdateForm } from "./UserUpdateForm";
 export { default as studioTheme } from "./studioTheme";
