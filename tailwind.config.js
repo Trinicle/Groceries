@@ -39,3 +39,9 @@ module.exports = {
   plugins: [],
 }
 
+//change colors
+//'text': '#FFFFFF'
+//'background': '#100F0F'
+//'primary': '#014421'
+//'secondary': '#025E01'
+//'accent': '#254F23'
